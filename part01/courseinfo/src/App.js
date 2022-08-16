@@ -2,21 +2,15 @@ const Header = (props) => {
 	return <h1>{props.course}</h1>
 }
 
-const Part = ({name, exercises}) => {
-	return (
-		<p>{name} {exercises}</p>
-	)
-}
+const Part = ({name, exercises}) => <p>{name} {exercises}</p>
 
-const Content = ({parts}) => {
-	return (
+const Content = ({parts}) => (
 		parts.map(part => {
 			return (
 				<Part name={part.name} exercises={part.exercises} key={part.name}/>
 			)
 		})
 	)
-}
 
 const Total = (props) => {
 	let parts = props.parts
