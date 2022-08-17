@@ -5,7 +5,12 @@ const Button = ({handleClick, text}) =>
 		{text}
 	</button>
 
-const StatisticLine = ({text, value}) => <tr><td>{text}</td><td>{value}</td></tr>
+const StatisticLine = ({text, value}) => 
+	<tr>
+		<td>{text}</td>
+		<td>{value}</td>
+	</tr>
+
 const Statistics = ({good, neutral, bad, average}) => {
 	let total = good + bad + neutral
 	if (total === 0)
