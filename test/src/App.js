@@ -84,19 +84,31 @@ const App = () => {
 	const handleLeftClick = () => {
 		setAll(allClicks.concat('L'))
 		setLeft(left + 1)
+		console.log('Left')
+
 	}
 
 	const handleRightClick = () => {
 		setAll(allClicks.concat('R'))
 		setRight(right + 1)
+		console.log('Right')
 	}
+
+	const handleReset = () => {
+		setAll([])
+		setRight(0)
+		setLeft(0)
+		console.log('Reset completed')
+	}
+
 	return (
 		<div>
 		  {left}
-		  <Button handleClick={handleLeftClick} text='left'/>
-		  <Button handleClick={handleRightClick} text='right'/>
+		  <Button handleClick={handleLeftClick} text='Left'/>
+		  <Button handleClick={handleRightClick} text='Right'/>
 		  {right}
 		  <History allClicks={allClicks}/>
+		  <Button handleClick={handleReset} text='Reset'/>
 		</div>
 	  )
 }
