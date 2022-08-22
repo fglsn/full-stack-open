@@ -1,44 +1,58 @@
 import { useState } from 'react'
-
-const Contact = ({ person }) => {
-	return (
-		<li>{person.name}</li>
-	)
-}
+import Contacts from './components/Contacts'
+import Filter from './components/Filter'
+import ContactForm from './components/Form'
 
 const App = (props) => {
 	const [persons, setPersons] = useState(props.persons)
 	const [newName, setNewName] = useState('')
+	const [newNumber, setNewNumber] = useState('')
+	const [search, setSearch] = useState('')
 
 	const addPerson = (event) => {
 		event.preventDefault()
-		const personObject = {
-			name: newName,
+		if (persons.some(contact => contact.name === newName))
+			alert(`${newName} is already added to phonebook`)
+		else {
+			const personObject = {
+				id: persons.length + 1,
+				name: newName,
+				number: newNumber,
+			}
+			if (!personObject.name || !personObject.number)
+				alert('Please provide name and number')
+			else
+				setPersons(persons.concat(personObject))
 		}
-		setPersons(persons.concat(personObject))
 		setNewName('')
+		setNewNumber('')
 	}
 
+	let personsToShow = [];
+
+	if(search) {
+		let searchMatches = persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
+		if (searchMatches.length)
+			personsToShow = searchMatches
+		else
+			personsToShow = [];
+	}
+	else
+		personsToShow = persons
+
 	const handleNewNameChange = (event) => setNewName(event.target.value)
+	const handleNewNumberChange = (event) => setNewNumber(event.target.value)
+	const handleNewSearch = (event) => setSearch(event.target.value)
 
 	return (
 		<div>
 			<h2>Phonebook</h2>
-			<form onSubmit={addPerson}>
-				<div>
-					name: <input value={newName} onChange={handleNewNameChange}/>
-				</div>
-				<div>
-					<button type="submit">add</button>
-				</div>
-			</form>
-			{/* <div>debug: {newName}</div> */}
+
+			<Filter search={search} handleNewSearch={handleNewSearch}/>
+			<h3>Add new contact</h3>
+			<ContactForm addPerson={addPerson} newNameHandler={handleNewNameChange} newNumberHandler={handleNewNumberChange} newName={newName} newNumber={newNumber}/> 
 			<h2>Numbers</h2>
-			<ul>
-				{persons.map(person => 
-					<Contact key={person.name} person={person}/>
-				)}
-			</ul>
+			<Contacts personsToShow={personsToShow}/>
 		</div>
 	)
 }
