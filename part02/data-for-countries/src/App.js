@@ -2,53 +2,85 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 // import -- from './components/--'
 
-const SearchField = ({search, handleSearch}) => <div>Find countries <input onChange={handleSearch} value={search}/></div>
+const SearchField = ({ search, handleSearch }) => <div>Find countries <input onChange={handleSearch} value={search}/></div>
 
-const Countries = ({countriesToShow}) => {
-	if (countriesToShow.length > 10)
+const Countries = ({ countries, setSearch }) => {
+	if (countries.length > 10)
 		return <p>Too many matches, specify another filter</p>
-	else if (countriesToShow.length === 1) {
-		let countryToShow = countriesToShow[0];
-		console.log(countryToShow)
-		return (
-			<CountryInfo key={countryToShow.id} country={countryToShow.country}/>
-		)
-	}
+	else if (countries.length === 1)
+		return <CountryView country={countries[0]}/>
 	else {
 		return (
 			<ul>
-				{countriesToShow.map(country => 
-					<CountryList key={country.id} country={country.country}/>
+				{countries.map((country, i) => 
+					<CountryName key={i} country={country} setSearch={setSearch}/>
 				)}
 			</ul>
 		)
 	}
 }
 
-const CountryInfo = ({country}) => {
-
+const CountryView = ({ country }) => {
+	let name = country.name.common
 	let languages = Object.values(country.languages)
-	// let flag = " flag"
-	let alt = "Flag of " + country.name.common;
+	let description = `Flag of ${name}`;
+
+	const [weather, setWeather] = useState([])
+<<<<<<< HEAD
+=======
+	const [error, setError] = useState()
+>>>>>>> 4f5563e84d59a36e8d1e0e9f15ffbeb80c323ed6
+	const hook = () => {
+		console.log('effect')
+		axios
+			.get(`https://api.openweathermap.org/data/2.5/weather?q=${country.capital}&units=metric&appid=${process.env.REACT_APP_API_KEY}`)
+			.then(response => {
+				console.log('promise fulfilled')
+				console.log(response.data)
+				setWeather(response.data)
+			})
+<<<<<<< HEAD
+=======
+			.catch(setError)
+>>>>>>> 4f5563e84d59a36e8d1e0e9f15ffbeb80c323ed6
+	}
+	useEffect(hook, [country.capital])
+
+	console.log("Weather ", weather)
+<<<<<<< HEAD
+=======
+	console.log("error ", error)
+>>>>>>> 4f5563e84d59a36e8d1e0e9f15ffbeb80c323ed6
 	return (
 		<div>
-			<h2>{country.name.common}</h2>
-			<p>capital {country.capital}</p>
-			<p>area {country.area}</p>
+			<h2>{name}</h2>
+			<p>Capital: {country.capital}</p>
+			<p>Area: {country.area}</p>
 			<h4>languages: </h4>
-			<ul>
+			<div>
 				{languages.map(language => 
 					<Language key={language} language={language}/>
 				)}
-			</ul>
-			<img alt={alt} src={country.flags.png}/>
+			</div>
+			<img alt={description} title={description} src={country.flags.png}/>
+			<h3>Weather in {country.capital}</h3>
+<<<<<<< HEAD
+			<p>Temperature {Math.floor(weather.main.temp)}°C</p>
+=======
+			{ weather && weather.main && weather.main.temp ? 
+				( <p>Temperature {Math.floor(weather.main.temp)}°C</p> )
+				: ( <p>loading</p> )
+			}
+
+			
+>>>>>>> 4f5563e84d59a36e8d1e0e9f15ffbeb80c323ed6
 		</div>
 	)
 }
 
-const CountryList = ({country}) => <li>{country.name.common}</li>
+const CountryName = ({ country, setSearch }) => <li>{country.name.common} <button onClick={() => setSearch(country.name.common)}>show</button></li>
 
-const Language = ({language}) => <li>{language}</li>
+const Language = ({ language }) => <li>{language}</li>
 
 const App = () => {
 	const [countries, setCountries] = useState([])
@@ -68,23 +100,12 @@ const App = () => {
 
 	console.log("Initial fetched list: ", countries)
 
-	let countriesList = []
-	for (let i = 0; i < countries.length; i++) {
-		countriesList.push({id: i, country: countries[i]})
-	}
-
-	// console.log(countriesList)
-
 	let countriesToShow = [];
 
-	if (search) {
-		let searchMatches = countriesList.filter(country => (country.country.name.common.toLowerCase().includes(search.toLowerCase())))
-		if (searchMatches.length)
-			countriesToShow = searchMatches
-		else
-			countriesToShow = [];
-	} else
+	if (search === '')
 		countriesToShow = []
+	else
+		countriesToShow = countries.filter(country => (country.name.common.toLowerCase().includes(search.toLowerCase())))
 
 	const handleSearch = (event) => setSearch(event.target.value)
 
@@ -92,7 +113,7 @@ const App = () => {
 		<div>
 			<h1>Countries information</h1>
 			<SearchField search={search} handleSearch={handleSearch}/>
-			<Countries countriesToShow={countriesToShow}/>
+			<Countries countries={countriesToShow} setSearch={setSearch}/>
 		</div>
 	)
 }
