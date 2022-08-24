@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import noteService from './services/notes'
-
 import Note from './components/Note'
 
 const App = () => {
@@ -25,7 +24,12 @@ const App = () => {
 			.then(returnedNote => {
 				setNotes(notes.map(note => note.id !== id ? note : returnedNote))
 			})
-		console.log(`importance of ${id} has been changed`)
+			.catch(error => {
+				alert(
+				  `the note '${note.content}' was already deleted from server`
+				)
+				setNotes(notes.filter(n => n.id !== id))
+			  })
 	}
 
 	const addNote = (event) => {
@@ -48,8 +52,6 @@ const App = () => {
 		console.log(event.target.value)
 		setNewNote(event.target.value)
 	}
-
-
 
 	const notesToShow = showAll
 	? notes
