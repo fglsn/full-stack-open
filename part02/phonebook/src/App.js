@@ -72,9 +72,7 @@ const App = () => {
 				setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
 			})
 			.catch(error => {
-				alert(
-				`the note '${person}' was already deleted from server`
-				)
+				alert(`the note '${person}' was already deleted from server`)
 				setPersons(persons.filter(person => person.id !== id))
 			})
 	} 
