@@ -1,0 +1,26 @@
+h2 {
+	color: green;
+	font-style: italic;
+}
+
+.notification {
+	color: green;
+	width: 50%;
+	height: 2rem;
+	font-size: 20px;
+	border-style: solid;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.error {
+	color: red;
+	width: 50%;
+	height: 2rem;
+	font-size: 20px;
+	border-style: solid;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
+}

@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react'
+
 import phonebookService from './services/phonebook'
 
 import Contacts from './components/Contacts'
 import Filter from './components/Filter'
 import ContactForm from './components/Form'
+import Notification from './components/Notification'
+import Error from './components/Error'
 
 const App = () => {
 	const [persons, setPersons] = useState([])
 	const [newName, setNewName] = useState('')
 	const [newNumber, setNewNumber] = useState('')
 	const [search, setSearch] = useState('')
+	const [notification, setNotification] = useState(null)
+	const [error, setError] = useState(null)
+
 
 	useEffect(() => {
 		phonebookService
@@ -39,6 +45,12 @@ const App = () => {
 				.create(personObject)
 				.then(newPerson => {
 					setPersons(persons.concat(newPerson))
+					setNotification(
+						`${newPerson.name} is added to the contact list`
+					)
+					setTimeout(() => {
+						setNotification(null)
+					}, 5000)
 					setNewName('')
 					setNewNumber('')
 				})
@@ -56,7 +68,13 @@ const App = () => {
 				setPersons(persons.filter(person => person.id !== id))
 			})
 			.catch(error => {
-				alert(`Contact ${person.name} has been already removed`)
+				// alert(`Contact ${person.name} has been already removed`)
+				setError(`Contact ${person.name} has been already removed`)
+				setTimeout(() => {
+					setError(null)
+				}, 5000)
+				setNewName('')
+				setNewNumber('')
 				setPersons(persons.filter(person => person.id !== id))
 			})
 		}
@@ -72,7 +90,11 @@ const App = () => {
 				setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
 			})
 			.catch(error => {
-				alert(`the note '${person}' was already deleted from server`)
+				// alert(`the note '${person}' was already deleted from server`)
+				setError(`Contact ${person.name} has been already removed`)
+				setTimeout(() => {
+					setError(null)
+				}, 5000)
 				setPersons(persons.filter(person => person.id !== id))
 			})
 	} 
@@ -99,9 +121,11 @@ const App = () => {
 
 			<Filter search={search} handleNewSearch={handleNewSearch}/>
 			<h3>Add new contact</h3>
+			<Notification message={notification} />
 			<ContactForm addPerson={addPerson} newNameHandler={handleNewNameChange} newNumberHandler={handleNewNumberChange} newName={newName} newNumber={newNumber}/> 
 			<h2>Numbers</h2>
 			<Contacts personsToShow={personsToShow} removePerson={removePerson}/>
+			<Error message={error} />
 		</div>
 	)
 }
