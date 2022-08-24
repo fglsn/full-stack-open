@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import phonebookService from './services/phonebook'
+
 import Contacts from './components/Contacts'
 import Filter from './components/Filter'
 import ContactForm from './components/Form'
@@ -10,35 +11,52 @@ const App = () => {
 	const [newNumber, setNewNumber] = useState('')
 	const [search, setSearch] = useState('')
 
-	const hook = () => {
-		console.log('effect')
-		axios
-		  .get('http://localhost:3001/persons')
-		  .then(response => {
-			console.log('promise fulfilled')
-			setPersons(response.data)
-		  })
-	  }
-	
-	  useEffect(hook, [])
+	useEffect(() => {
+		phonebookService
+			.getAll()
+			.then(initialContacts => {
+				setPersons(initialContacts)
+			})
+	}, [])
 
 	const addPerson = (event) => {
 		event.preventDefault()
+
 		if (persons.some(contact => contact.name === newName))
 			alert(`${newName} is already added to phonebook`)
 		else {
 			const personObject = {
-				id: persons.length + 1,
 				name: newName,
 				number: newNumber,
 			}
 			if (!personObject.name || !personObject.number)
 				alert('Please provide name and number')
-			else
-				setPersons(persons.concat(personObject))
+			else {
+				phonebookService
+				.create(personObject)
+				.then(newPerson => {
+					setPersons(persons.concat(newPerson))
+					setNewName('')
+					setNewNumber('')
+				})
+			}
 		}
-		setNewName('')
-		setNewNumber('')
+	}
+
+	const removePerson = id => {
+		const person = persons.find(person => person.id === id)
+		if (window.confirm(`Do you want to remove ${person.name}`)) {
+			phonebookService
+			.remove(id)
+			.then(returnedPerson => {
+				setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+				setPersons(persons.filter(person => person.id !== id))
+			})
+			.catch(error => {
+				alert(`Contact ${person.name} has been already removed`)
+				setPersons(persons.filter(person => person.id !== id))
+			})
+		}
 	}
 
 	let personsToShow = [];
@@ -65,7 +83,7 @@ const App = () => {
 			<h3>Add new contact</h3>
 			<ContactForm addPerson={addPerson} newNameHandler={handleNewNameChange} newNumberHandler={handleNewNumberChange} newName={newName} newNumber={newNumber}/> 
 			<h2>Numbers</h2>
-			<Contacts personsToShow={personsToShow}/>
+			<Contacts personsToShow={personsToShow} removePerson={removePerson}/>
 		</div>
 	)
 }
