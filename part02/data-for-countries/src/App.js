@@ -57,9 +57,14 @@ const CountryView = ({ country }) => {
 			</div>
 			<img alt={description} title={description} src={country.flags.png}/>
 			<h3>Weather in {country.capital}</h3>
-			{ weather && weather.main && weather.main.temp ? 
-				( <p>Temperature {Math.floor(weather.main.temp)}°C</p> )
-				: ( <p>loading</p> )
+			{/* { weather && weather.main && weather.main.temp && weather.wind && weather.wind.speed } ?  */}
+			{weather.length !== 0 ? 
+				( <div>
+					<p>Temperature {Math.floor(weather.main.temp)}°C</p>
+					<img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt={`Weather condition in ${country.capital}`}/>
+					<p>Wind {weather.wind.speed} m/s</p>
+				 </div> )
+				: ( <p>loading weather</p> )
 			}
 		</div>
 	)
