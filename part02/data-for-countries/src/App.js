@@ -26,10 +26,8 @@ const CountryView = ({ country }) => {
 	let description = `Flag of ${name}`;
 
 	const [weather, setWeather] = useState([])
-<<<<<<< HEAD
-=======
 	const [error, setError] = useState()
->>>>>>> 4f5563e84d59a36e8d1e0e9f15ffbeb80c323ed6
+
 	const hook = () => {
 		console.log('effect')
 		axios
@@ -39,18 +37,13 @@ const CountryView = ({ country }) => {
 				console.log(response.data)
 				setWeather(response.data)
 			})
-<<<<<<< HEAD
-=======
 			.catch(setError)
->>>>>>> 4f5563e84d59a36e8d1e0e9f15ffbeb80c323ed6
 	}
 	useEffect(hook, [country.capital])
 
 	console.log("Weather ", weather)
-<<<<<<< HEAD
-=======
 	console.log("error ", error)
->>>>>>> 4f5563e84d59a36e8d1e0e9f15ffbeb80c323ed6
+
 	return (
 		<div>
 			<h2>{name}</h2>
@@ -64,16 +57,10 @@ const CountryView = ({ country }) => {
 			</div>
 			<img alt={description} title={description} src={country.flags.png}/>
 			<h3>Weather in {country.capital}</h3>
-<<<<<<< HEAD
-			<p>Temperature {Math.floor(weather.main.temp)}°C</p>
-=======
 			{ weather && weather.main && weather.main.temp ? 
 				( <p>Temperature {Math.floor(weather.main.temp)}°C</p> )
 				: ( <p>loading</p> )
 			}
-
-			
->>>>>>> 4f5563e84d59a36e8d1e0e9f15ffbeb80c323ed6
 		</div>
 	)
 }
