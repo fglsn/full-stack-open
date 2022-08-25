@@ -73,7 +73,7 @@ let notes = [
 	// console.log(note)
 	// console.log(request.headers)
 	response.json(note)
-  })
+})
 
   const PORT = 3001
   app.listen(PORT, () => {
