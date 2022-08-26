@@ -36,3 +36,5 @@ overriding default NOT FOUND message for http status (404)
 https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express/36507614#36507614
 
 
+-- cors -- 
+npm install cors
