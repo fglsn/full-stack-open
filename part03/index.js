@@ -1,3 +1,4 @@
+const { request, response } = require('express')
 const express = require('express')
 const app = express()
 
@@ -60,29 +61,26 @@ function getRandomInt(min, max) {
 	return Math.ceil(Math.random() * (max - min + 1) + min);
 }
 
-const generateId = () => {
-	if (persons.length === 0)
-		return Number(1)
-	return Math.floor(Math.random() * Number(2147483647))
-}
-
-Math.floor(Math.random() * 500)
+const generateId = () => Math.floor(Math.random() * Number(2147483647))
 
 const assignId = () => {
 	let newId = generateId()
-	const person = persons.find(person => person.id === newId)
-	if (person) {
-		newId = generateId()
-		assignId()
-	} else
-		return (newId)
+	let person = persons.find(person => person.id === newId)
+	if (person || !newId)
+		return (assignId()) 
+	return (newId)
 }
 
 app.post('/api/persons', (request, response) => {
 	const body = request.body
+
 	if (!body.name || !body.number) {
 		return response.status(400).json({
 			error: 'missing name or/and number'
+		})
+	} else if (persons.find(person => person.name === body.name)) {
+		return response.status(400).json({
+			error: 'name must be unique'
 		})
 	}
 
@@ -91,7 +89,7 @@ app.post('/api/persons', (request, response) => {
 		number: body.number,
 		id: assignId()
 	}
-	console.log(person.id)
+	// console.log(person.id)
 	persons.concat(person)
 	response.json(person)
 })
