@@ -1,0 +1,40 @@
+-- install JSON server --
+npx json-server --port 3001 --watch db.json
+
+npm install axios
+
+-- Install json-server as a development dependency (only used during development) --
+npm install json-server --save-dev
+
+to package.json -> "server": "json-server -p3001 --watch db.json"
+
+npm run server
+
+
+
+
+-- create a new template for application --
+npm init
+
+node index.js //run app 
+
+
+-- express --
+npm install express
+
+-- nodemon --
+npm install --save-dev nodemon
+
+node_modules/.bin/nodemon index.js //start app with nodemon
+npm run dev //after adding "dev": "nodemon index.js", script to package.json
+
+-- postman --
+https://www.postman.com/downloads/
+https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+overriding default NOT FOUND message for http status (404)
+https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express/36507614#36507614
+
+
+-- cors -- 
+npm install cors
