@@ -42,4 +42,7 @@ npm install cors
 https://fullstackopen-notes-fglsn.herokuapp.com/
 
 
+https://dev.to/crrojas88/deploying-a-git-subdirectory-to-heroku-23ld
 git subtree push --prefix part03/phonebook-back heroku main
+
+npm install mongoose
