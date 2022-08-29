@@ -13,7 +13,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 let notes = [
 	{
 	  id: 1,
-	  content: "HTML is easy",
+	  content: "HTML",
 	  date: "2022-05-30T17:30:31.098Z",
 	  important: true
 	},
