@@ -40,3 +40,6 @@ https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-me
 npm install cors
 
 https://fullstackopen-notes-fglsn.herokuapp.com/
+
+
+git subtree push --prefix part03/phonebook-back heroku main
