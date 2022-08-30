@@ -1,8 +1,11 @@
+require("dotenv").config();
+
 const express = require('express')
-const morgan = require("morgan")
+const morgan = require('morgan')
 const cors = require('cors')
 
 const app = express()
+const Note = require('./models/note')
 
 app.use(express.json())
 app.use(cors())
@@ -40,16 +43,16 @@ let notes = [
   }
   app.use(requestLogger)
 
-
-  
   app.get('/', (request, response) => {
 	response.send('<h1>Hello World!</h1>')
   })
   
   app.get('/api/notes', (request, response) => {
-	response.json(notes)
+	Note.find({}).then(notes => {
+	  response.json(notes)
+	})
   })
-  
+
   app.get('/api/notes/:id', (request, response) => {
 	const id = Number(request.params.id)
 	const note = notes.find(note => note.id === id)
@@ -99,7 +102,7 @@ const unknownEndpoint = (request, response) => {
   
   app.use(unknownEndpoint)
 
-  const PORT = process.env.PORT || 3001
+  const PORT = process.env.PORT
   app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
   })
