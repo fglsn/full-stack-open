@@ -51,7 +51,7 @@ npm install mongoose
 == phonebook: ==
 heroku git:remote -a fullstackopen-phonebook-fglsn
 heroku config:set MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.rxxdbit.mongodb.net/phonebookApp?retryWrites=true&w=majority"
-git subtree push --prefix part03/phonebook-backend heroku main
+git subtree push --prefix part03/phonebook-back heroku main
 
 
 == notes == 
