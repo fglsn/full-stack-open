@@ -5,15 +5,7 @@ const morgan = require("morgan")
 const cors = require('cors')
 
 const app = express()
-const Person = require('./models/person')
-
-app.use(express.json())
-app.use(cors())
-app.use(express.static('build'))
-
-// app.use(morgan("tiny"));
-morgan.token('body', (req, resp) => JSON.stringify(req.body));
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
+const Person = require('./models/person');
 
 const requestLogger = (request, response, next) => {
 	console.log('Method:', request.method)
@@ -21,22 +13,27 @@ const requestLogger = (request, response, next) => {
 	console.log('Body:  ', request.body)
 	console.log('---')
 	next()
-  }
-app.use(requestLogger)
+}
 
-// app.get('/', (request, response) => {
-// 	response.send('<a href="">show persons</a>')
-// })
+app.use(express.static('build'))
+app.use(express.json())
+app.use(requestLogger)
+app.use(cors())
+// app.use(morgan("tiny"));
+morgan.token('body', (req, resp) => JSON.stringify(req.body));
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get('/info', (request, response) => {
-	const personsCount = persons.length
-	const timestamp = new Date()
-	// console.log(personsCount)
-	if (personsCount === 1)
-		response.send(`Phonebook har records for 1 person`)
-	else
-		response.send(`<p>Phonebook har records for ${personsCount} people</p>
-						<p>${timestamp}</p>`)
+	Person.find({}).then(persons => {
+		const personsCount = persons.length
+		const timestamp = new Date()
+		// console.log(personsCount)
+		if (personsCount === 1)
+			response.send(`Phonebook har records for 1 person`)
+		else
+			response.send(`<p>Phonebook har records for ${personsCount} people</p>
+							<p>${timestamp}</p>`)
+	})
 })
 
 app.get('/api/persons', (request, response) => {
@@ -45,29 +42,18 @@ app.get('/api/persons', (request, response) => {
 	})
   })
 
-app.get('/api/persons/:id', (request, response) => {
-	// const id = Number(request.params.id)
-	// person = persons.find(person => person.id === id)
-	// person &&
-	// 	response.json(person)
-	// !person &&
-	// 	response.status(404).end()
-	Person.findById(request.params.id).then(person => {
-		response.json(person)
-	})
+app.get('/api/persons/:id', (request, response, next) => {
+	Person.findById(request.params.id)
+		.then(person => {
+			if (person)
+				response.json(person)
+			else
+				response.status(404).end()
+		})
+		.catch((error) => next(error))
 })
 
-// const generateId = () => Math.floor(Math.random() * Number(2147483647))
-
-// const assignId = () => {
-// 	let newId = generateId()
-// 	let person = Person.find(person => person.id === newId)
-// 	if (person || !newId)
-// 		return (assignId()) 
-// 	return (newId)
-// }
-
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
 	const body = request.body
 
 	if (!body.name || !body.number) {
@@ -75,33 +61,53 @@ app.post('/api/persons', (request, response) => {
 			error: 'missing name or/and number'
 		})
 	}
-	// } else if (persons.find(person => person.name === body.name)) {
-	// 	return response.status(400).json({
-	// 		error: 'name must be unique'
-	// 	})
-	// }
 
 	const person = new Person({
 		name: body.name,
 		number: body.number,
-		// id: assignId()
 	})
-
-	person.save().then(savedPerson => {
-		response.json(person)
-	})
+	person.save()
+		.then(savedPerson => {
+			response.json(savedPerson)
+		})
+		.catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
-	const id = Number(request.params.id)
-	persons = persons.filter(person => person.id !== id)
-	response.status(204).end()
+app.put('/api/persons/:id', (request, response, next) => {
+	const { name, number } = request.body
+
+	Person.findByIdAndUpdate(request.params.id, { name, number }, { new: true })
+		.then(updatedPerson => {
+			response.json(updatedPerson.toJSON())
+		})
+		.catch(error => next(error))
+})
+
+app.delete('/api/persons/:id', (request, response, next) => {
+	Person.findByIdAndDelete(request.params.id)
+	.then(result => {
+		response.status(204).end()
+	})
+	.catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
 	response.status(404).send({ error: 'unknown endpoint' })
 }
+
 app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+	console.error(error.message)
+
+	if (error.name === 'CastError') {
+		return response.status(400).send({ error: 'malformatted id' })
+	}
+	next(error)
+}
+
+// this has to be the last loaded middleware.
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
