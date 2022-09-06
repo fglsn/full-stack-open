@@ -54,6 +54,13 @@ const App = () => {
 					setNewName('')
 					setNewNumber('')
 				})
+				.catch(error => {
+					console.log(error.response.data.error)
+					setError(error.response.data.error)
+					setTimeout(() => {
+						setError(null)
+					}, 5000)
+				})
 			}
 		}
 	}
@@ -90,12 +97,23 @@ const App = () => {
 				setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
 			})
 			.catch(error => {
-				// alert(`the note '${person}' was already deleted from server`)
-				setError(`Contact ${person.name} has been already removed`)
-				setTimeout(() => {
-					setError(null)
-				}, 5000)
-				setPersons(persons.filter(person => person.id !== id))
+				if (error.response.data.error) {
+					let err = error.response.data.error
+					if (err.indexOf('Validation failed:') !== -1) {
+						console.log(error.response.data.error)
+						setError(error.response.data.error)
+						setTimeout(() => {
+							setError(null)
+						}, 5000)
+					}
+				} else {
+					setError(`Contact ${person.name} has been already removed`)
+					setTimeout(() => {
+						setError(null)
+					}, 5000)
+					setPersons(persons.filter(person => person.id !== id))
+				}
+
 			})
 	} 
 
