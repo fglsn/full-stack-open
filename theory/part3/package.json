@@ -7,10 +7,12 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-	  "build:ui": "rm -rf build && cd ../part2/ && npm run build && cp -r build ../part3",
+    "build:ui": "rm -rf build && cd ../part2/ && npm run build && cp -r build ../part3",
     "deploy": "git push heroku HEAD:master",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",    
-    "logs:prod": "heroku logs --tail"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
+    "logs:prod": "heroku logs --tail",
+	"lint": "eslint .",
+	"lint:fix": "npx eslint . --fix"
   },
   "author": "Ilona Shakurova",
   "license": "MIT",
@@ -22,6 +24,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.23.0",
     "nodemon": "^2.0.19"
   }
 }
