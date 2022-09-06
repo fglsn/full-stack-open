@@ -1,11 +1,11 @@
-require("dotenv").config();
+require('dotenv').config()
 
-const express = require("express")
-const morgan = require("morgan")
+const express = require('express')
+const morgan = require('morgan')
 const cors = require('cors')
 
 const app = express()
-const Person = require('./models/person');
+const Person = require('./models/person')
 
 const requestLogger = (request, response, next) => {
 	console.log('Method:', request.method)
@@ -19,8 +19,8 @@ app.use(express.static('build'))
 app.use(express.json())
 app.use(requestLogger)
 app.use(cors())
-// app.use(morgan("tiny"));
-morgan.token('body', (req, resp) => JSON.stringify(req.body));
+// app.use(morgan('tiny'));
+morgan.token('body', (req, resp) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get('/info', (request, response) => {
@@ -29,9 +29,9 @@ app.get('/info', (request, response) => {
 		const timestamp = new Date()
 		// console.log(personsCount)
 		if (personsCount === 1)
-			response.send(`Phonebook har records for 1 person`)
+			response.send('Phonebook has records for 1 person')
 		else
-			response.send(`<p>Phonebook har records for ${personsCount} people</p>
+			response.send(`<p>Phonebook has records for ${personsCount} people</p>
 							<p>${timestamp}</p>`)
 	})
 })
@@ -40,7 +40,7 @@ app.get('/api/persons', (request, response) => {
 	Person.find({}).then(persons => {
 		response.json(persons)
 	})
-  })
+})
 
 app.get('/api/persons/:id', (request, response, next) => {
 	Person.findById(request.params.id)
@@ -58,7 +58,7 @@ app.post('/api/persons', (request, response, next) => {
 
 	if (body.name ===  undefined || body.number === undefined) {
 		return response.status(400).json({ error: 'missing name or/and number' })
-	} else if (Person.find({name: body.name})) {
+	} else if (Person.find({ name: body.name })) {
 		console.log('error: that name is already in the phonebook')
 		return response.status(400).json({ error: 'that name is already in the phonebook' })
 	}
@@ -91,10 +91,10 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
 	Person.findByIdAndDelete(request.params.id)
-	.then(result => {
-		response.status(204).end()
-	})
-	.catch(error => next(error))
+		.then(result => {
+			response.status(204).end()
+		})
+		.catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
