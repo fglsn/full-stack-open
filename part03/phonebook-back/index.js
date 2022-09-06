@@ -58,21 +58,25 @@ app.post('/api/persons', (request, response, next) => {
 
 	if (body.name ===  undefined || body.number === undefined) {
 		return response.status(400).json({ error: 'missing name or/and number' })
-	} else if (Person.find({ name: body.name })) {
-		console.log('error: that name is already in the phonebook')
-		return response.status(400).json({ error: 'that name is already in the phonebook' })
 	}
+	Person.find({}).then(persons => {
+		let match = persons.find(person => person.name === body.name)
+		if (match) {
+			console.log('error: that name is already in the phonebook')
+			return response.status(400).json({ error: 'that name is already in the phonebook' })
+		} else {
+			const person = new Person({
+				name: body.name,
+				number: body.number
+			})
 
-	const person = new Person({
-		name: body.name,
-		number: body.number
+			person.save()
+				.then(savedPerson => {
+					response.json(savedPerson)
+				})
+				.catch(error => next(error))
+		}
 	})
-
-	person.save()
-		.then(savedPerson => {
-			response.json(savedPerson)
-		})
-		.catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
