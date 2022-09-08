@@ -64,9 +64,31 @@ const mostBlogs = (blogs) => {
 
 }
 
+const mostLikes = (blogs) => {
+	if (blogs.length === 0)
+		return NaN
+	else {
+		let authorLikeCounts = Object.values(blogs.reduce((r, { author, likes }) => {
+			r[author] = r[author] || { author, likes: 0}
+			r[author].likes += likes
+			return r;
+		}, {})
+		);
+
+		// console.log(JSON.stringify(authorLikeCounts))
+
+		let result = authorLikeCounts.filter(obj => {
+			return obj.likes === Math.max(...authorLikeCounts.map(author => author.likes))
+		})
+
+		return result[0]
+	}
+}
+
 module.exports = {
 	dummy,
 	totalLikes,
 	favouriteBlog,
-	mostBlogs
+	mostBlogs,
+	mostLikes
 }

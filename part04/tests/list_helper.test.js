@@ -120,7 +120,7 @@ describe('top liked blog', () => {
 
 })
 
-describe('top author', () => {
+describe('most frequently appeared author', () => {
 
 	test('of empty list is Nan', () => {
 		const result = listHelper.mostBlogs([])
@@ -133,6 +133,23 @@ describe('top author', () => {
 			author: "Robert C. Martin",
 			blogs: 3
 		}
+		expect(result).toEqual(expected)
+	})
+})
+
+describe('top author (by likes)', () => {
+
+	test('of empty list is Nan', () => {
+		const result = listHelper.mostBlogs([])
+		expect(result).toBe(NaN)
+	})
+
+	test('most blogs of one author and amount of his blogs', () => {
+		const result = listHelper.mostLikes(blogs)
+		const expected = {
+			author: "Edsger W. Dijkstra",
+			likes: 17
+		  }
 		expect(result).toEqual(expected)
 	})
 })
