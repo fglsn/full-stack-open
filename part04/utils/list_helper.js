@@ -43,6 +43,8 @@ const favouriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
+	// reduce array to an object that has authors as keys and "count objects (blogs)" as values
+	// Then get final array with Object.values
 
 	let authorsCounts = Object.values(blogs.reduce((r, { author }) => {
 			r[author] = r[author] || { author, blogs: 0 };
