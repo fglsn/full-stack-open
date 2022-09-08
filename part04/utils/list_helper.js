@@ -45,19 +45,23 @@ const favouriteBlog = (blogs) => {
 const mostBlogs = (blogs) => {
 	// reduce array to an object that has authors as keys and "count objects (blogs)" as values
 	// Then get final array with Object.values
-
-	let authorsCounts = Object.values(blogs.reduce((r, { author }) => {
+	if (blogs.length === 0)
+		return NaN
+	else {
+		let authorsCounts = Object.values(blogs.reduce((r, { author }) => {
 			r[author] = r[author] || { author, blogs: 0 };
 			r[author].blogs++;
 			return r;
 		}, {})
-	);
+		);
 
-	let result =  authorsCounts.filter(obj => {
-		return obj.blogs === Math.max(...authorsCounts.map(author => author.blogs))
-	})
+		let result = authorsCounts.filter(obj => {
+			return obj.blogs === Math.max(...authorsCounts.map(author => author.blogs))
+		})
 
-	return result[0]
+		return result[0]
+	}
+
 }
 
 module.exports = {
