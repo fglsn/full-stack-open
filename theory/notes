@@ -59,3 +59,19 @@ heroku git:remote -a fullstackopen-notes-fglsn
 heroku config:set MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.yitvnyc.mongodb.net/noteApp?retryWrites=true&w=majority"
 git subtree push --prefix theory/part3 heroku main
 
+
+
+testing lib
+== jest ==
+	npm install --save-dev jest
+
+into to scripts of package.json : 
+	"test": "jest --verbose"
+
+to the end of package.json :
+	"jest": {
+	"testEnvironment": "node"
+	}
+
+to "env" section of eslintrc.js : 
+	'jest': true,

@@ -112,10 +112,27 @@ describe('top liked blog', () => {
 			title: "Canonical string reduction",
 			author: "Edsger W. Dijkstra",
 			likes: 12
-		  }
+		}
 		expect(result).toEqual(expected)
-	})	
+	})
 
 
 
+})
+
+describe('top author', () => {
+
+	test('of empty list is Nan', () => {
+		const result = listHelper.mostBlogs([])
+		expect(result).toBe(NaN)
+	})
+
+	test('most blogs of one author and amount of his blogs', () => {
+		const result = listHelper.mostBlogs(blogs)
+		const expected = {
+			author: "Robert C. Martin",
+			blogs: 3
+		}
+		expect(result).toEqual(expected)
+	})
 })
