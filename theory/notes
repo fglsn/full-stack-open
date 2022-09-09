@@ -41,12 +41,11 @@ npm install cors
 
 https://fullstackopen-notes-fglsn.herokuapp.com/
 
-
+== heroku subtree ==
 https://dev.to/crrojas88/deploying-a-git-subdirectory-to-heroku-23ld
 git subtree push --prefix part03/phonebook-back heroku main
 
 npm install mongoose
-
 
 == phonebook: ==
 heroku git:remote -a fullstackopen-phonebook-fglsn
@@ -75,3 +74,15 @@ to the end of package.json :
 
 to "env" section of eslintrc.js : 
 	'jest': true,
+
+
+
+== supertest ==
+npm install --save-dev supertest
+
+==  express-async-errors library ==
+
+npm install express-async-errors
+
+into app.js add : require('express-async-errors')
+
