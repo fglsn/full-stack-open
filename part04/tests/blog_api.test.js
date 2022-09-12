@@ -17,15 +17,25 @@ beforeEach(async () => {
 	}
 })
 
-test('all 6 blog posts are returned', async () => {
-	const response = await api.get('/api/blogs')
+describe('Basic db tests', () => {
+	test('all blog posts are returned', async () => {
+		const response = await api.get('/api/blogs')
 
-	expect(response.body).toHaveLength(helper.initialBlogs.length)
+		expect(response.body).toHaveLength(helper.initialBlogs.length)
+	})
+
+	test('blog posts are returned as json', async () => {
+		await api
+			.get('/api/blogs')
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+	})
+
+	test('identifier property of the blog posts is named id', async () => {
+		const response = await api.get('/api/blogs')
+		for (let blog of response.body)
+			expect(blog.id).toBeDefined()
+	})
 })
 
-test('blog posts are returned as json', async () => {
-	await api
-		.get('/api/blogs')
-		.expect(200)
-		.expect('Content-Type', /application\/json/)
-})
+
