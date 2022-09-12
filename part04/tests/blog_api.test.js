@@ -65,6 +65,27 @@ describe('Posting new blog', () => {
 		expect(contentsOfBlogs).toContain('New blog by Bebes Bebesovitch')
 	})
 
+	test('missing likes property defaulted to 0', async () => {
+		//default property equal to 0 added to likes in person.js model
+		const newBlog = {
+			title: 'Test default on likes: New blog by Bubis Bubisovitch',
+			author: 'Bubis Bubisovitch',
+			url: 'https://bubsbloggis.com/',
+		}
+
+		await api
+			.post('/api/blogs')
+			.send(newBlog)
+			.expect(201)
+			.expect('Content-Type', /application\/json/)
+
+		const blogsList = await helper.blogsInDb()
+		const recentlyAdded = blogsList.filter(blog => blog.title === 'Test default on likes: New blog by Bubis Bubisovitch')
+		// console.log(recentlyAdded[0])
+		expect(recentlyAdded[0]).toHaveProperty('likes', 0)
+	})
+
+
 
 })
 
