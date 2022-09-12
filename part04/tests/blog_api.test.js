@@ -85,7 +85,13 @@ describe('Posting new blog', () => {
 		expect(recentlyAdded[0]).toHaveProperty('likes', 0)
 	})
 
+	test('backend responded with 400 Bad Request on missing title and url', async () => {
+		const newBlog = {
+			author: 'Bubis Bubisovitch'
+		}
 
+		await api.post('/api/blogs', newBlog).expect(400)
+	})
 
 })
 
