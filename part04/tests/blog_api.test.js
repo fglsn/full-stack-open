@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const supertest = require('supertest')
 const helper = require('./test_helper')
 const app = require('../app')
@@ -17,7 +17,7 @@ beforeEach(async () => {
 	}
 })
 
-describe('Basic db tests whe initially some posts saved', () => {
+describe('when there is initially some posts saved', () => {
 
 	test('all blog posts are returned', async () => {
 		const response = await api.get('/api/blogs')
@@ -40,7 +40,7 @@ describe('Basic db tests whe initially some posts saved', () => {
 
 })
 
-describe('Posting new blog', () => {
+describe('adding new blog with post', () => {
 
 	test('new valid post can be added', async () => {
 		const newBlog = {
@@ -61,8 +61,8 @@ describe('Posting new blog', () => {
 		expect(blogsAfterPostRequest).toHaveLength(helper.initialBlogs.length + 1)
 
 		//check if new post can be found in db
-		const contentsOfBlogs = blogsAfterPostRequest.map(blog => blog.title)
-		expect(contentsOfBlogs).toContain('New blog by Bebes Bebesovitch')
+		const blogsTitles = blogsAfterPostRequest.map(blog => blog.title)
+		expect(blogsTitles).toContain('New blog by Bebes Bebesovitch')
 	})
 
 	test('missing likes property defaulted to 0', async () => {
@@ -83,15 +83,36 @@ describe('Posting new blog', () => {
 		const recentlyAdded = blogsList.filter(blog => blog.title === 'Test default on likes: New blog by Bubis Bubisovitch')
 		// console.log(recentlyAdded[0])
 		expect(recentlyAdded[0]).toHaveProperty('likes', 0)
+
+		const blogsAfterPostRequest = await helper.blogsInDb()
+		expect(blogsAfterPostRequest).toHaveLength(helper.initialBlogs.length + 1)
 	})
 
-	test('backend responded with 400 Bad Request on missing title and url', async () => {
+	test('fails with 400 Bad Request on missing title and url', async () => {
 		const newBlog = {
 			author: 'Bubis Bubisovitch'
 		}
 
 		await api.post('/api/blogs', newBlog).expect(400)
+
+		const blogsAtEnd = await helper.blogsInDb()
+		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 	})
 
 })
 
+describe('removing blog post', () => {
+	test('deletion succeeds with status code 204 if id is valid', async () => {
+		const blogsAtStart = await helper.blogsInDb()
+		const blogToDelete = blogsAtStart[0]
+
+		await api
+			.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+		const blogsAtEnd = await helper.blogsInDb()
+		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+		const titles = blogsAtEnd.map(blog => blog.title)
+		expect(titles).not.toContain(blogToDelete.title)
+	})
+})
