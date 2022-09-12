@@ -86,7 +86,10 @@ to "env" section of eslintrc.js :
 	'jest': true,
 
 (** to run one test, use for.ex : 
-	npm test -- tests/blog_api.test.js)
+	npm test -- tests/blog_api.test.js
+or	
+	npm test -- -t 'test desc/name' )
+
 
 == supertest ==
 npm install --save-dev supertest
