@@ -58,10 +58,20 @@ heroku git:remote -a fullstackopen-notes-fglsn
 heroku config:set MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.yitvnyc.mongodb.net/noteApp?retryWrites=true&w=majority"
 git subtree push --prefix theory/part3 heroku main
 
+== ESlint ==
+
+npm install eslint --save-dev
+npx eslint --init
+
+to package.json scripts section:
+	"lint": "eslint .",
+	"lint:fix": "npx eslint . --fix"
+
 
 
 testing lib
 == jest ==
+
 	npm install --save-dev jest
 
 into to scripts of package.json : 
@@ -75,7 +85,8 @@ to the end of package.json :
 to "env" section of eslintrc.js : 
 	'jest': true,
 
-
+(** to run one test, use for.ex : 
+	npm test -- tests/blog_api.test.js)
 
 == supertest ==
 npm install --save-dev supertest
