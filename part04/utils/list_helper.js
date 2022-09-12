@@ -49,11 +49,11 @@ const mostBlogs = (blogs) => {
 		return NaN
 	else {
 		let authorsCounts = Object.values(blogs.reduce((r, { author }) => {
-			r[author] = r[author] || { author, blogs: 0 };
-			r[author].blogs++;
-			return r;
+			r[author] = r[author] || { author, blogs: 0 }
+			r[author].blogs++
+			return r
 		}, {})
-		);
+		)
 
 		let result = authorsCounts.filter(obj => {
 			return obj.blogs === Math.max(...authorsCounts.map(author => author.blogs))
@@ -69,11 +69,11 @@ const mostLikes = (blogs) => {
 		return NaN
 	else {
 		let authorLikeCounts = Object.values(blogs.reduce((r, { author, likes }) => {
-			r[author] = r[author] || { author, likes: 0}
+			r[author] = r[author] || { author, likes: 0 }
 			r[author].likes += likes
-			return r;
+			return r
 		}, {})
-		);
+		)
 
 		// console.log(JSON.stringify(authorLikeCounts))
 
