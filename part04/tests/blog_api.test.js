@@ -5,6 +5,7 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const { findById } = require('../models/blog')
 
 jest.setTimeout(100000)
 
@@ -101,7 +102,31 @@ describe('adding new blog with post', () => {
 
 })
 
+describe('updating an existing post', () => {
+
+	test('post with existing id can be updated', async () => {
+		const blogsAtStart = await helper.blogsInDb()
+		const blogToUpdate = blogsAtStart[0]
+		// console.log(blogToUpdate)
+		const contentToUpdate = { ...blogToUpdate, likes: blogToUpdate.likes + 1 }
+		// console.log(contentToUpdate)
+		await api
+			.put(`/api/blogs/${blogToUpdate.id}`)
+			.send(contentToUpdate)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+
+		const blogsAtEnd = await helper.blogsInDb()
+		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+		const updatedBlog = blogsAtEnd.find(blog => blog.title === 'React patterns')
+		// console.log(updatedBlog)
+		expect(updatedBlog).toEqual(contentToUpdate)
+	})
+})
+
 describe('removing blog post', () => {
+
 	test('deletion succeeds with status code 204 if id is valid', async () => {
 		const blogsAtStart = await helper.blogsInDb()
 		const blogToDelete = blogsAtStart[0]
