@@ -4,13 +4,23 @@ const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 
+const bcrypt = require('bcrypt')
 const Note = require('../models/note')
+const User = require('../models/user')
+
 
 jest.setTimeout(100000)
 
 beforeEach(async () => {
 	await Note.deleteMany({})
 	await Note.insertMany(helper.initialNotes)
+
+	await User.deleteMany({})
+
+	const passwordHash = await bcrypt.hash('sekret', 10)
+	const user = new User({ username: 'root', passwordHash })
+
+	await user.save()
 })
 
 
@@ -75,14 +85,31 @@ describe('viewing a specific note', () => {
 })
 
 describe('addition of a new note', () => {
+
 	test('succeeds with valid data', async () => {
+
+		const user = {
+			username: 'root',
+			password: 'sekret'
+		}
+
 		const newNote = {
 			content: 'async/await simplifies making async calls',
 			important: true,
 		}
 
+		const response = await api
+			.post('/api/login')
+			.send(user)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+
+		const token = response.body
+		// console.log(token.token)
+	
 		await api
 			.post('/api/notes')
+			.set({ Authorization: `bearer ${token.token}` })
 			.send(newNote)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
@@ -97,12 +124,27 @@ describe('addition of a new note', () => {
 	})
 
 	test('fails with status code 400 if data invalid', async () => {
+
+		const user = {
+			username: 'root',
+			password: 'sekret'
+		}
+
+		const response = await api
+			.post('/api/login')
+			.send(user)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+
+		const token = response.body
+
 		const newNote = {
 			important: true
 		}
 
 		await api
 			.post('/api/notes')
+			.set({ Authorization: `bearer ${token.token}` })
 			.send(newNote)
 			.expect(400)
 

@@ -109,3 +109,4 @@ npm install bcrypt
 == jsonwebtoken ==
 npm install jsonwebtoken
 
+(If the application has multiple interfaces requiring identification, JWT's validation should be separated into its own middleware. Some existing library like express-jwt could also be used. )

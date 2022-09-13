@@ -1,10 +1,10 @@
 POST http://localhost:3001/api/notes/
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImlsbyIsImlkIjoiNjMyMDg5MTc3Y2M3ZGQwM2YyZjE2MmMwIiwiaWF0IjoxNjYzMDg5NjQyLCJleHAiOjE2NjMwOTMyNDJ9.zml2dFNkldFmk5JaUAU6w1TCLYhAXbb6uBoglugbYSk
 
 {
-	"content": "Test from rest client",
-	"important": true,
-	"userId": "6320763d9ec177f8f72c359e"
+	"content": "Test token",
+	"important": true
 }
 
 ###
