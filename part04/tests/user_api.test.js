@@ -7,13 +7,13 @@ const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
 jest.setTimeout(100000)
-describe('when there is initially one user in db', () => {
 
+describe('when there is initially one user in db', () => {
 	beforeEach(async () => {
 		await User.deleteMany({})
 
-		const passwordHash = await bcrypt.hash('sekret', 10)
-		const user = new User({ username: 'root', passwordHash })
+		const passwordHash = await bcrypt.hash('xmaterial', 10)
+		const user = new User({ username: 'boki', passwordHash })
 
 		await user.save()
 	})
@@ -22,9 +22,9 @@ describe('when there is initially one user in db', () => {
 		const usersAtStart = await helper.usersInDb()
 
 		const newUser = {
-			username: 'mluukkai',
-			name: 'Matti Luukkainen',
-			password: 'salainen',
+			username: 'kuki',
+			name: 'kroki kukis',
+			password: 'xmaterial',
 		}
 
 		await api
@@ -44,9 +44,9 @@ describe('when there is initially one user in db', () => {
 		const usersAtStart = await helper.usersInDb()
 
 		const newUser = {
-			username: 'root',
-			name: 'Superuser',
-			password: 'salainen',
+			username: 'boki',
+			name: 'boki borki',
+			password: 'xmaterial',
 		}
 
 		const result = await api
