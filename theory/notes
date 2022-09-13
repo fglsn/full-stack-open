@@ -100,3 +100,12 @@ npm install express-async-errors
 
 into app.js add : require('express-async-errors')
 
+
+Creating users:
+
+== bcrypt ==
+npm install bcrypt
+
+== jsonwebtoken ==
+npm install jsonwebtoken
+

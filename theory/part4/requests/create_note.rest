@@ -3,7 +3,8 @@ Content-Type: application/json
 
 {
 	"content": "Test from rest client",
-	"important": true
+	"important": true,
+	"userId": "6320763d9ec177f8f72c359e"
 }
 
 ###
