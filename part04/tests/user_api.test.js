@@ -60,4 +60,83 @@ describe('when there is initially one user in db', () => {
 		const usersAtEnd = await helper.usersInDb()
 		expect(usersAtEnd).toEqual(usersAtStart)
 	})
+
+	test('creation fails with no username provided', async () => {
+		const usersAtStart = await helper.usersInDb()
+
+		const newUser = {
+			name: 'boki borki',
+			password: 'xmaterial',
+		}
+
+		const result = await api
+			.post('/api/users')
+			.send(newUser)
+			.expect(400)
+			.expect('Content-Type', /application\/json/)
+
+		expect(result.body.error).toContain('username missing')
+
+		const usersAtEnd = await helper.usersInDb()
+		expect(usersAtEnd).toEqual(usersAtStart)
+	})
+
+	test('creation fails with no password provided', async () => {
+		const usersAtStart = await helper.usersInDb()
+
+		const newUser = {
+			username: 'bokiborki'
+		}
+
+		const result = await api
+			.post('/api/users')
+			.send(newUser)
+			.expect(400)
+			.expect('Content-Type', /application\/json/)
+
+		expect(result.body.error).toContain('password missing')
+
+		const usersAtEnd = await helper.usersInDb()
+		expect(usersAtEnd).toEqual(usersAtStart)
+	})
+
+	test('creation fails with username less than 3 chars', async () => {
+		const usersAtStart = await helper.usersInDb()
+
+		const newUser = {
+			username: 'bo',
+			password: 'xmatertials'
+		}
+
+		const result = await api
+			.post('/api/users')
+			.send(newUser)
+			.expect(400)
+			.expect('Content-Type', /application\/json/)
+
+		expect(result.body.error).toContain('must contain at least 3 chars')
+
+		const usersAtEnd = await helper.usersInDb()
+		expect(usersAtEnd).toEqual(usersAtStart)
+	})
+
+	test('creation fails with password less than 3 chars', async () => {
+		const usersAtStart = await helper.usersInDb()
+
+		const newUser = {
+			username: 'borki',
+			password: '12'
+		}
+
+		const result = await api
+			.post('/api/users')
+			.send(newUser)
+			.expect(400)
+			.expect('Content-Type', /application\/json/)
+
+		expect(result.body.error).toContain('must contain at least 3 chars')
+
+		const usersAtEnd = await helper.usersInDb()
+		expect(usersAtEnd).toEqual(usersAtStart)
+	})
 })

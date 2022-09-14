@@ -19,6 +19,19 @@ usersRouter.post('/', async (request, response) => {
 		})
 	}
 
+	if (!username) {
+		return response.status(400).json({
+			error: 'username missing'
+		})
+	} else if (!password) {
+		return response.status(400).json({
+			error: 'password missing'
+		})
+	} else if (password.length < 3 || username.length < 3) {
+		return response.status(400).json({
+			error: 'must contain at least 3 chars'
+		})
+	}
 	//todo: check username length, username consists of permitted characters, the password is strong enough
 
 	const saltRounds = 10
