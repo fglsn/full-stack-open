@@ -30,6 +30,7 @@ npm run dev //after adding "dev": "nodemon index.js", script to package.json
 
 -- postman --
 https://www.postman.com/downloads/
+-- rest client --
 https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 
 overriding default NOT FOUND message for http status (404)
