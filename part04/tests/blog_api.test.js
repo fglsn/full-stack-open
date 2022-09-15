@@ -16,6 +16,7 @@ jest.setTimeout(100000)
 beforeEach(async () => {
 	await Blog.deleteMany({})
 	await Blog.insertMany(helper.initialBlogs)
+
 	await User.deleteMany({})
 	const passwordHash = await bcrypt.hash('xmaterials', 10)
 	const user = new User({ username: 'kuki', passwordHash })
@@ -52,12 +53,7 @@ describe('adding new blog with post', () => {
 
 		const user = helper.loginUser
 
-		const newBlog = {
-			title: 'New blog by Bebes Bebesovitch',
-			author: 'Bebes Bebesovitch',
-			url: 'https://bebsbloggis.com/',
-			likes: 0
-		}
+		const newBlog = helper.newBlog
 
 		const response = await api
 			.post('/api/login')
@@ -192,15 +188,40 @@ describe('updating an existing post', () => {
 
 describe('removing blog post', () => {
 
-	test('deletion succeeds with status code 204 if id is valid', async () => {
-		const blogsAtStart = await helper.blogsInDb()
-		const blogToDelete = blogsAtStart[0]
+	test('deletion succeeds with status code 204 if id is valid and owner logged in', async () => {
+		const user = (await helper.usersInDb())[0]
+		const userId = user.id
+		const userCredentials = helper.loginUser
+		const newBlog = helper.newBlog
 
+		//log in
+		const loginResponse = await api
+			.post('/api/login')
+			.send(userCredentials)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+		
+		const body = loginResponse.body
+
+		//add new post by logged in user
 		await api
-			.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+			.post('/api/blogs')
+			.set({ Authorization: `bearer ${body.token}` })
+			.send(newBlog)
+			.expect(201)
+			.expect('Content-Type', /application\/json/)
+		
+		const blogsAtStart = await helper.blogsInDb()
+		const blogToDelete = blogsAtStart.find(blog => blog.title === 'New blog by Bebes Bebesovitch')
+		
+		//remove just added blog
+		await api
+			.delete(`/api/blogs/${blogToDelete.id}`)
+			.set({ Authorization: `bearer ${body.token}` })
+			.expect(204)
 
 		const blogsAtEnd = await helper.blogsInDb()
-		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 
 		const titles = blogsAtEnd.map(blog => blog.title)
 		expect(titles).not.toContain(blogToDelete.title)
