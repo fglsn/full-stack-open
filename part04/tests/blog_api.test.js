@@ -137,7 +137,7 @@ describe('adding new blog with post', () => {
 		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 	})
 
-	test('fails with missing token', async () => {
+	test('fails with 401 on missing token', async () => {
 
 		const user = helper.loginUser
 

@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-Authorization: bearer <token>
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imlsb25hIiwiaWQiOiI2MzIwYzJhZDlkNDA2M2JkNjYxZDU0NDciLCJpYXQiOjE2NjMyNjU5OTcsImV4cCI6MTY2MzI2OTU5N30.UMpleakCrqRJ-lebdx49sASjscDbAEq4xKzFEY8u9uA
 
 {
-	"title": "test",
+	"title": "ilona",
 	"author": "test",
 	"url": "test"
 }
