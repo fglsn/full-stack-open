@@ -52,8 +52,25 @@ blogsRouter.put('/:id', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-	await Blog.findByIdAndRemove(request.params.id)
-	response.status(204).end()
+	const body = request.body
+
+	const decodedToken = jwt.verify(request.token, process.env.SECRET)
+	if (!decodedToken || !decodedToken.id) {
+		return response.status(401).json({ error: 'token missing or invalid' })
+	}
+
+	const user = await User.findById(decodedToken.id)
+	const userId = user._id
+	// console.log('USER: ', creatorId.toString())
+
+	const blog = await Blog.findById(request.params.id)
+	// console.log('BLOG USER ID', blog.user)
+	if (blog.user.toString() === userId.toString()) {
+		await Blog.findByIdAndRemove(request.params.id)
+		response.status(204).end()
+	} else {
+		return response.status(401).json({ error: 'user not authorized to remove post (not owner)' })
+	}
 })
 
 module.exports = blogsRouter
