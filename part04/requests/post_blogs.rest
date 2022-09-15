@@ -1,8 +1,9 @@
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imlsb25hIiwiaWQiOiI2MzIwYzJhZDlkNDA2M2JkNjYxZDU0NDciLCJpYXQiOjE2NjMyNDM2ODAsImV4cCI6MTY2MzI0NzI4MH0.ReYLVCWEBfIoSv0UC58X4Lw63WrUG9uGBIhiaBhvi00
 
 {
-	"title": "Go To Statement Considered Harmful",
+	"title": "BEBE",
 	"author": "Edsger W. Dijkstra",
 	"url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
 	"likes": 5
@@ -18,3 +19,4 @@ Content-Type: application/json
 	"url": "https://reactpatterns.com/",
 	"likes": 7
 }
+

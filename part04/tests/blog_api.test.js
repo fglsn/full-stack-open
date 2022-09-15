@@ -1,21 +1,26 @@
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const supertest = require('supertest')
 const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
+const bcrypt = require('bcrypt')
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
+
 const { findById } = require('../models/blog')
+const { response } = require('../app')
 
 jest.setTimeout(100000)
 
 beforeEach(async () => {
 	await Blog.deleteMany({})
+	await Blog.insertMany(helper.initialBlogs)
+	await User.deleteMany({})
+	const passwordHash = await bcrypt.hash('xmaterials', 10)
+	const user = new User({ username: 'kuki', passwordHash })
 
-	for (let blog of helper.initialBlogs) {
-		let blogObject = new Blog(blog)
-		await blogObject.save()
-	}
+	await user.save()
 })
 
 describe('when there is initially some posts saved', () => {
@@ -44,6 +49,12 @@ describe('when there is initially some posts saved', () => {
 describe('adding new blog with post', () => {
 
 	test('new valid post can be added', async () => {
+
+		const user = {
+			username: 'kuki',
+			password: 'xmaterials'
+		}
+
 		const newBlog = {
 			title: 'New blog by Bebes Bebesovitch',
 			author: 'Bebes Bebesovitch',
@@ -51,8 +62,18 @@ describe('adding new blog with post', () => {
 			likes: 0
 		}
 
+		const response = await api
+			.post('/api/login')
+			.send(user)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+
+		const token = response.body
+		console.log(token.token)
+
 		await api
 			.post('/api/blogs')
+			.set({ Authorization: `bearer ${token.token}` })
 			.send(newBlog)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
