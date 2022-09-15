@@ -50,10 +50,7 @@ describe('adding new blog with post', () => {
 
 	test('new valid post can be added', async () => {
 
-		const user = {
-			username: 'kuki',
-			password: 'xmaterials'
-		}
+		const user = helper.loginUser
 
 		const newBlog = {
 			title: 'New blog by Bebes Bebesovitch',
@@ -68,12 +65,12 @@ describe('adding new blog with post', () => {
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
 
-		const token = response.body
-		console.log(token.token)
+		const body = response.body
+		// console.log(token.token)
 
 		await api
 			.post('/api/blogs')
-			.set({ Authorization: `bearer ${token.token}` })
+			.set({ Authorization: `bearer ${body.token}` })
 			.send(newBlog)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
@@ -88,7 +85,16 @@ describe('adding new blog with post', () => {
 	})
 
 	test('missing likes property defaulted to 0', async () => {
-		//default property equal to 0 added to likes in person.js model
+		const user = helper.loginUser
+
+		const response = await api
+		.post('/api/login')
+		.send(user)
+		.expect(200)
+		.expect('Content-Type', /application\/json/)
+
+		const body = response.body
+
 		const newBlog = {
 			title: 'Test default on likes: New blog by Bubis Bubisovitch',
 			author: 'Bubis Bubisovitch',
@@ -97,6 +103,7 @@ describe('adding new blog with post', () => {
 
 		await api
 			.post('/api/blogs')
+			.set({ Authorization: `bearer ${body.token}` })
 			.send(newBlog)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
@@ -111,11 +118,24 @@ describe('adding new blog with post', () => {
 	})
 
 	test('fails with 400 Bad Request on missing title and url', async () => {
+		const user = helper.loginUser
+
+		const response = await api
+			.post('/api/login')
+			.send(user)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+
+		const body = response.body
+
 		const newBlog = {
 			author: 'Bubis Bubisovitch'
 		}
 
-		await api.post('/api/blogs', newBlog).expect(400)
+		await api
+			.post('/api/blogs', newBlog)
+			.set({ Authorization: `bearer ${body.token}` })
+			.expect(400)
 
 		const blogsAtEnd = await helper.blogsInDb()
 		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
