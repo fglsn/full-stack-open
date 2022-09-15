@@ -48,7 +48,7 @@ describe('when there is initially some posts saved', () => {
 
 describe('adding new blog with post', () => {
 
-	test('new valid post can be added', async () => {
+	test('new valid post can be added when user logged in', async () => {
 
 		const user = helper.loginUser
 
@@ -139,6 +139,30 @@ describe('adding new blog with post', () => {
 
 		const blogsAtEnd = await helper.blogsInDb()
 		expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+	})
+
+	test('fails with missing token', async () => {
+
+		const user = helper.loginUser
+
+		await api
+			.post('/api/login')
+			.send(user)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+
+		const newBlog = {
+			title: 'New blog by Bebes Bebesovitch',
+			author: 'Bebes Bebesovitch',
+			url: 'https://bebsbloggis.com/',
+			likes: 0
+		}
+
+		await api
+			.post('/api/blogs')
+			.send(newBlog)
+			.expect(401)
+			.expect('Content-Type', /application\/json/)
 	})
 
 })
