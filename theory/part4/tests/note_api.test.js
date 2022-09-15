@@ -152,6 +152,33 @@ describe('addition of a new note', () => {
 
 		expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
 	})
+
+	test('fails when user not logged in', async () => {
+
+		const user = {
+			username: 'root',
+			password: 'sekret'
+		}
+
+		await api
+			.post('/api/login')
+			.send(user)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+
+		const newNote = {
+			content: 'test',
+			important: true
+		}
+
+		await api
+			.post('/api/notes')
+			.set({ Authorization: `bearer wrongtoken` })
+			.send(newNote)
+			.expect(401)
+			.expect('Content-Type', /application\/json/)
+
+	})
 })
 
 describe('deletion of a note', () => {
