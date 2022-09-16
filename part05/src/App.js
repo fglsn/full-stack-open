@@ -8,6 +8,7 @@ import loginService from './services/login'
 
 const App = () => {
 	const [errorMessage, setErrorMessage] = useState(null)
+	const [infoMessage, setInfoMessage] = useState(null)
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [user, setUser] = useState(null)
@@ -47,10 +48,7 @@ const App = () => {
 			setUsername('')
 			setPassword('')
 		} catch (exception) {
-			setErrorMessage('wrong credentials')
-			setTimeout(() => {
-				setErrorMessage(null)
-			}, 5000)
+			displayError('wrong username and password')
 		}
 	}
 
@@ -92,18 +90,39 @@ const App = () => {
 		</form>
 	)
 
+	const displayError = (error) => {
+		setErrorMessage(error)
+		setTimeout(() => {
+			setInfoMessage(null)
+		}, 5000)
+	}
+
+	const displayInfo = (info) => {
+		setInfoMessage(info)
+		setTimeout(() => {
+			setInfoMessage(null)
+		}, 5000)
+	}
+
 	const addBlog = (event) => {
 		event.preventDefault()
 		const blogObject = { title, author, url }
 		blogService
 			.create(blogObject)
 			.then(returnedBlog => {
-				setBlogs(blogs.concat(returnedBlog))
-				setTitle('')
-				setAuthor('')
-				setUrl('')
+				if (returnedBlog.error) {
+					console.log(returnedBlog.error)
+					displayError(returnedBlog.error)
+				} else {
+					setBlogs(blogs.concat(returnedBlog))
+					setTitle('')
+					setAuthor('')
+					setUrl('')
+					displayInfo(`a new blog ${returnedBlog.title} by ${returnedBlog.author} is added`)
+				}
 			})
 	}
+
 	const blogForm = () => (
 		<form onSubmit={addBlog}>
 			<div>
@@ -140,23 +159,25 @@ const App = () => {
 	return (
 
 		<div>
-			<Notification message={errorMessage} />
+			<Notification error={errorMessage} info={infoMessage} />
 
-			{user === null ?
-				<div>
-					<h2>Log in to application</h2>
-					{loginForm()}
-				</div> :
-				<div>
-					<p>{user.name} logged in
-						<button onClick={handleLogout} type="submit">logout</button>
-					</p>
-					{blogForm()}
-					<h2>blogs</h2>
-					{blogs.map(blog =>
-						<Blog key={blog.id} blog={blog} />
-					)}
-				</div>
+			{
+				//if user not logged in, show login form, otherwise full content
+				user === null ?
+					<div>
+						<h2>Log in to application</h2>
+						{loginForm()}
+					</div> :
+					<div>
+						<p>{user.name} logged in
+							<button onClick={handleLogout} type="submit">logout</button>
+						</p>
+						{blogForm()}
+						<h2>blogs</h2>
+						{blogs.map(blog =>
+							<Blog key={blog.id} blog={blog} />
+						)}
+					</div>
 			}
 		</div>
 	)
