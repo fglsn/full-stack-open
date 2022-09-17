@@ -5,6 +5,7 @@ import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
+import Button from './components/Button'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -18,7 +19,6 @@ const App = () => {
 	const [password, setPassword] = useState('')
 	const [user, setUser] = useState(null)
 	const [blogs, setBlogs] = useState([])
-
 	const blogFormRef = useRef()
 
 	useEffect(() => {
@@ -109,6 +109,7 @@ const App = () => {
 		</Togglable>
 	)
 
+
 	return (
 
 		<div>
@@ -126,14 +127,18 @@ const App = () => {
 					/>
 				</Togglable> :
 				<div>
-					<p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+					<p>{user.name} logged in
+						<Button onClick={handleLogout} text='logout'></Button>
+					</p>
 					{blogForm()}
 				</div>
 			}
 			<div>
 				<h2>blogs</h2>
 				{blogs.map(blog =>
-					<Blog key={blog.id} blog={blog} />
+						<Togglable key={blog.id} buttonLabel='expand' description={blog}>
+							<Blog key={blog.id} blog={blog}/>
+						</Togglable>
 				)}
 			</div>
 		</div>
