@@ -51,10 +51,3 @@ input {
 	flex-direction: column;
 	align-items: flex-end
 }
-
-.justify {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}

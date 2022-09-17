@@ -16,11 +16,13 @@ const Blog = ({ blog }) => {
 	return (
 		<div className='container' >
 			<div className='container' style={hideWhenExpanded}>
-				<p className='blogStyle'>"{blog.title}" by {blog.author}</p>
-				<button className='btn' onClick={handleExpand}>Expand</button>
+				<p className='blogStyle'>"
+					{blog.title}" by {blog.author} 
+					<button className='btn' onClick={handleExpand}>Expand</button>
+				</p>
 			</div>
 			<div className='blogStyle' style={showWhenExpanded}>
-				<div className='justify'>
+				<div>
 					{blog.title}
 					<button className='btn' onClick={handleExpand}>Hide</button>
 				</div>
