@@ -19,10 +19,42 @@
 }
 
 .blogStyle {
-	width: fit-content;
+	margin: 10px;
 	font-size: 20px;
 	border-style: solid;
 	border-radius: 5px;
 	padding: 10px;
-	margin-bottom: 10px;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.btn {
+	height: 24px;
+	margin: 7px;
+}
+
+.input {
+	display: flex;
+	margin: 5px 0 0 0;
+}
+
+input {
+	margin: 0 5px;
+}
+
+.blogForm {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end
+}
+
+.justify {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }

@@ -116,29 +116,28 @@ const App = () => {
 			<Notification error={errorMessage} info={infoMessage} />
 
 			{	//if user not logged in, show login form, otherwise full content
-			user === null ?
-				<Togglable buttonLabel='login'>
-					<LoginForm
-						username={username}
-						password={password}
-						handleUsernameChange={({ target }) => setUsername(target.value)}
-						handlePasswordChange={({ target }) => setPassword(target.value)}
-						handleSubmit={handleLogin}
-					/>
-				</Togglable> :
-				<div>
-					<p>{user.name} logged in
-						<Button onClick={handleLogout} text='logout'></Button>
-					</p>
-					{blogForm()}
-				</div>
+				user === null ?
+					<Togglable buttonLabel='login'>
+						<LoginForm
+							username={username}
+							password={password}
+							handleUsernameChange={({ target }) => setUsername(target.value)}
+							handlePasswordChange={({ target }) => setPassword(target.value)}
+							handleSubmit={handleLogin}
+						/>
+					</Togglable> :
+					<div>
+						<p>{user.name} logged in
+							<Button onClick={handleLogout} text='logout'></Button>
+						</p>
+						{blogForm()}
+					</div>
 			}
 			<div>
 				<h2>blogs</h2>
+
 				{blogs.map(blog =>
-						<Togglable key={blog.id} buttonLabel='expand' description={blog}>
-							<Blog key={blog.id} blog={blog}/>
-						</Togglable>
+					<Blog key={blog.id} blog={blog} />
 				)}
 			</div>
 		</div>
