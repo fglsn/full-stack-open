@@ -33,15 +33,13 @@ const Blog = ({ blog, updateList, user }) => {
 		}
 	}
 
-	const showRemoveBtn = () => user && user.id === blog.user.id
-	// 	// if (user) {
-	// 	// 	console.log(blog.user.id)
-	// 	// 	console.log('logged in user', user.id)
-	// 	// }
-	// 	return ()
-	// }
-
-
+	const showRemoveBtn = () => {
+		// if (user) {
+		// 	console.log(blog.user)
+		// 	console.log('logged in user', user.id)
+		// }
+		return user && user.id === blog.user.id
+	}
 
 	return (
 		<div className='container' >

@@ -93,11 +93,12 @@ const App = () => {
 		blogFormRef.current.toggleVisibility()
 
 		const newBlog = await blogService.create(blogObject)
+		console.log('new blog: ', JSON.stringify(newBlog))
 		if (newBlog.error) {
-			console.log(newBlog.error)
+			// console.log(newBlog.error)
 			displayError(newBlog.error)
 		} else {
-			setBlogs(blogs.concat(newBlog))
+			await setSortedList()
 			displayInfo(`a new blog ${newBlog.title} by ${newBlog.author} is added`)
 		}
 	}
