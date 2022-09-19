@@ -15,10 +15,22 @@ const getAll = () => {
 const create = async newObject => {
 	try {
 		const config = {
-			headers: { Authorization: token },
+			headers: { Authorization: token }
 		}
 	
 		const response = await axios.post(baseUrl, newObject, config)
+		return response.data
+	} catch (err) {
+		return(err.response.data)
+	}
+}
+
+const remove = async blogId => {
+	try {
+		const config = {
+			headers: { Authorization: token }
+		}
+		const response = await axios.delete(`${baseUrl}/${blogId}`, config)
 		return response.data
 	} catch (err) {
 		return(err.response.data)
@@ -31,5 +43,5 @@ const putLike =  async (blogObject) => {
 	return response.data
 }
 
-const moduleExports = { setToken, getAll, create, putLike }
+const moduleExports = { setToken, getAll, create, putLike, remove }
 export default moduleExports

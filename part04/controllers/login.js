@@ -14,7 +14,7 @@ loginRouter.post('/', async (request, response) => {
 	const passwordCorrect = user === null
 		? false
 		: await bcrypt.compare(password, user.passwordHash)
-	
+
 	// console.log(passwordCorrect)
 
 	if (!(user && passwordCorrect)) {
@@ -36,7 +36,7 @@ loginRouter.post('/', async (request, response) => {
 
 	response
 		.status(200)
-		.send({ token, username: user.username, name: user.name })
+		.send({ token, username: user.username, name: user.name, id: user.id })
 })
 
 module.exports = loginRouter
