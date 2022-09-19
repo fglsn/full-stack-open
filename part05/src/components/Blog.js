@@ -14,38 +14,32 @@ const Blog = ({ blog, updateList, user }) => {
 		setExpand(!expand)
 	}
 
-	const incrementLike = () => {
-		let changedBlog = blog
-		changedBlog.likes += 1
-		blogService
-			.putLike(changedBlog)
-			.then(returnedBlog => {
-				if (returnedBlog.error)
-					console.log(returnedBlog.error)
-				else {
-					console.log("like added")
-				}
-			})
-		updateList()
-		console.log('works')
+	const incrementLike = async () => {
+		const updatedBlog = { ...blog, likes: blog.likes + 1 }
+		const response = await blogService.putLike(updatedBlog)
+		if (response.error)
+			console.log(response.error)
+		else {
+			updateList()
+			// console.log("like added")
+		}
 	}
 
-	const removeBlog = () => {
+	const removeBlog = async () => {
 		let confirm = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
 		if (confirm) {
-			blogService.remove(blog.id)
-			window.location.reload()
+			await blogService.remove(blog.id)
+			updateList()
 		}
-		console.log('updated?')
 	}
 
-	const showRemoveBtn = () => {
-		if (user) {
-			console.log(blog.user.id)
-			console.log('logged in user', user.id)
-		}
-		return (user && user.id === blog.user.id)
-	}
+	const showRemoveBtn = () => user && user.id === blog.user.id
+	// 	// if (user) {
+	// 	// 	console.log(blog.user.id)
+	// 	// 	console.log('logged in user', user.id)
+	// 	// }
+	// 	return ()
+	// }
 
 
 
@@ -65,7 +59,7 @@ const Blog = ({ blog, updateList, user }) => {
 				<div>{blog.url}</div>
 				<div> likes {blog.likes} <Button text='like' onClick={incrementLike}></Button></div>
 				<div>{blog.author}</div>
-				{showRemoveBtn() === true && <Button text='Remove' onClick={removeBlog}></Button>}
+				{showRemoveBtn() && <Button text='Remove' onClick={removeBlog}></Button>}
 			</div>
 		</div>
 	)

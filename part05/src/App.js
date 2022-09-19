@@ -25,11 +25,10 @@ const App = () => {
 		setSortedList()
 	}, [])
 
-	const setSortedList = () => {
-		blogService.getAll().then(blogs => {
-			blogs.sort((a, b) => (a.likes > b.likes) ? -1 : 1)
-			setBlogs(blogs)
-		})
+	const setSortedList = async () => {
+		const upToDateBlogs = await blogService.getAll()
+		upToDateBlogs.sort((a, b) => (a.likes > b.likes) ? -1 : 1)
+		setBlogs(upToDateBlogs)
 	}
 
 	useEffect(() => {
@@ -89,21 +88,18 @@ const App = () => {
 		}, 5000)
 	}
 
-	const addBlog = (blogObject) => {
+	const addBlog = async blogObject => {
 		// hide the form by calling noteFormRef.current.toggleVisibility() after a new note has been created
 		blogFormRef.current.toggleVisibility()
 
-		blogService
-			.create(blogObject)
-			.then(returnedBlog => {
-				if (returnedBlog.error) {
-					console.log(returnedBlog.error)
-					displayError(returnedBlog.error)
-				} else {
-					setBlogs(blogs.concat(returnedBlog))
-					displayInfo(`a new blog ${returnedBlog.title} by ${returnedBlog.author} is added`)
-				}
-			})
+		const newBlog = await blogService.create(blogObject)
+		if (newBlog.error) {
+			console.log(newBlog.error)
+			displayError(newBlog.error)
+		} else {
+			setBlogs(blogs.concat(newBlog))
+			displayInfo(`a new blog ${newBlog.title} by ${newBlog.author} is added`)
+		}
 	}
 
 	const blogForm = () => (
