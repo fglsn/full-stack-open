@@ -21,10 +21,15 @@ const App = () => {
 	const [blogs, setBlogs] = useState([])
 	const blogFormRef = useRef()
 
-	useEffect(() => {
-		blogService.getAll().then(blogs =>
+	const setSortedList = () => {
+		blogService.getAll().then(blogs => {
+			blogs.sort((a, b) => (a.likes > b.likes) ? -1 : 1)
 			setBlogs(blogs)
-		)
+		})
+	}
+
+	useEffect(() => {
+		setSortedList()
 	}, [])
 
 	useEffect(() => {
@@ -109,7 +114,6 @@ const App = () => {
 		</Togglable>
 	)
 
-
 	return (
 
 		<div>
@@ -137,7 +141,7 @@ const App = () => {
 				<h2>Blog list: </h2>
 
 				{blogs.map(blog =>
-					<Blog key={blog.id} blog={blog} />
+					<Blog key={blog.id} blog={blog} updateList={setSortedList}/>
 				)}
 			</div>
 		</div>

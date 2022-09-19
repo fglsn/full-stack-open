@@ -26,5 +26,10 @@ const create = async newObject => {
 
 }
 
-const moduleExports = { setToken, getAll, create }
+const putLike =  async (blogObject) => {
+	const response = await axios.put(`${baseUrl}/${blogObject.id}`, blogObject)
+	return response.data
+}
+
+const moduleExports = { setToken, getAll, create, putLike }
 export default moduleExports

@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import Button from "./Button"
+import blogService from '../services/blogs'
 import '../index.css'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateList }) => {
 
 	const [expand, setExpand] = useState(false)
 
@@ -11,6 +12,21 @@ const Blog = ({ blog }) => {
 
 	const handleExpand = () => {
 		setExpand(!expand)
+	}
+
+	const incrementLike = () => {
+		let changedBlog = blog
+		changedBlog.likes += 1
+		blogService
+			.putLike(changedBlog)
+			.then(returnedBlog => {
+				if (returnedBlog.error)
+					console.log(returnedBlog.error)
+				else {
+					console.log("like added")
+				}
+			})
+			updateList()
 	}
 
 	return (
@@ -27,7 +43,7 @@ const Blog = ({ blog }) => {
 					<button className='btn' onClick={handleExpand}>Hide</button>
 				</div>
 				<div>{blog.url}</div>
-				<div> likes {blog.likes} <Button text='like'></Button></div>
+				<div> likes {blog.likes} <Button text='like' onClick={incrementLike}></Button></div>
 				<div>{blog.author}</div>
 			</div>
 		</div>
