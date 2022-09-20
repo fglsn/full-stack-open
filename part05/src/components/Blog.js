@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Button from "./Button"
+import Button from './Button'
 import blogService from '../services/blogs'
 import '../index.css'
 
@@ -44,8 +44,8 @@ const Blog = ({ blog, updateList, user }) => {
 	return (
 		<div className='container' >
 			<div className='container' style={hideWhenExpanded}>
-				<p className='blogStyle'>"
-					{blog.title}" by {blog.author}
+				<p className='blogStyle'>
+				&quot;{blog.title}&quot; by {blog.author}
 					<button className='btn' onClick={handleExpand}>Expand</button>
 				</p>
 			</div>
