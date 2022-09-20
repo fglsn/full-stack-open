@@ -60,7 +60,7 @@ heroku config:set MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.yitv
 git subtree push --prefix theory/part3 heroku main
 
 == ESlint ==
-
+back:
 npm install eslint --save-dev
 npx eslint --init
 
@@ -68,6 +68,8 @@ to package.json scripts section:
 	"lint": "eslint .",
 	"lint:fix": "npx eslint . --fix"
 
+front: 
+npm install --save-dev eslint-plugin-jest
 
 
 testing lib
@@ -118,3 +120,6 @@ npm install jsonwebtoken
 	window.localStorage.removeItem('loggedNoteappUser')
 or with the command which empties localstorage completely:
 	window.localStorage.clear()
+
+== prop-types == 
+npm install prop-types

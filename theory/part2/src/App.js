@@ -84,6 +84,7 @@ const App = () => {
 				setErrorMessage(
 					`Note '${note.content}' was already removed from server`
 				)
+				console.log(error)
 				setTimeout(() => {
 					setErrorMessage(null)
 				}, 5000)
