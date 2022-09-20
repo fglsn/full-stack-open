@@ -46,16 +46,18 @@ const Blog = ({ blog, updateList, user }) => {
 			<div className='container' style={hideWhenExpanded}>
 				<div className='blogStyle'>
 					<div className='blog-collapsed-title'>&quot;{blog.title}&quot; by {blog.author}</div>
-					<button className='btn' onClick={handleExpand}>Expand</button>
+					<button className='btn expand-btn' onClick={handleExpand}>Expand</button>
 				</div>
 			</div>
 			<div className='blogStyle blog-expanded' style={showWhenExpanded}>
 				<div>
 					{blog.title}
-					<button className='btn' onClick={handleExpand}>Hide</button>
 				</div>
 				<div>{blog.url}</div>
-				<div> likes {blog.likes} <Button text='like' onClick={incrementLike}></Button></div>
+				<div>
+					likes {blog.likes}
+					<button className='btn' aria-label='like' onClick={incrementLike}>like</button>
+				</div>
 				<div>{blog.author}</div>
 				{showRemoveBtn() && <Button text='Remove' onClick={removeBlog}></Button>}
 			</div>
