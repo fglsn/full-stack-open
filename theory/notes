@@ -74,7 +74,7 @@ npm install --save-dev eslint-plugin-jest
 
 testing lib
 == jest ==
-
+__Back__
 	npm install --save-dev jest
 
 into to scripts of package.json : 
@@ -93,6 +93,8 @@ to "env" section of eslintrc.js :
 or	
 	npm test -- -t 'test desc/name' )
 
+__Front__
+npm install --save-dev @testing-library/react @testing-library/jest-dom
 
 == supertest ==
 npm install --save-dev supertest
