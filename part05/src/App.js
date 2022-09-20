@@ -103,6 +103,26 @@ const App = () => {
 		}
 	}
 
+	const handleLike = async (blog) => {
+		const updatedBlog = { ...blog, likes: blog.likes + 1 }
+		const response = await blogService.putLike(updatedBlog)
+
+		if (response.error)
+			console.log(response.error)
+		else {
+			await setSortedList()
+			// console.log("like added")
+		}
+	}
+
+	const handleRemove = async () => {
+		let confirm = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
+		if (confirm) {
+			await blogService.remove(blog.id)
+			await setSortedList()
+		}
+	}
+
 	const blogForm = () => (
 		<Togglable buttonLabel="New blog" ref={blogFormRef}>
 			<BlogForm
@@ -138,7 +158,7 @@ const App = () => {
 				<h2>Blog list: </h2>
 
 				{blogs.map(blog =>
-					<Blog key={blog.id} blog={blog} updateList={setSortedList} user={user}/>
+					<Blog key={blog.id} blog={blog} onLike={handleLike} onRemoveBlog={handleRemove} user={user} />
 				)}
 			</div>
 		</div>
