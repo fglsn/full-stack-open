@@ -7,8 +7,8 @@ const Blog = ({ blog, updateList, user }) => {
 
 	const [expand, setExpand] = useState(false)
 
-	const hideWhenExpanded = { display: expand ? 'none' : '' }
-	const showWhenExpanded = { display: expand ? '' : 'none' }
+	const hideWhenExpanded = { display: expand ? 'none' : 'block' }
+	const showWhenExpanded = { display: expand ? 'block' : 'none' }
 
 	const handleExpand = () => {
 		setExpand(!expand)
@@ -44,12 +44,12 @@ const Blog = ({ blog, updateList, user }) => {
 	return (
 		<div className='container' >
 			<div className='container' style={hideWhenExpanded}>
-				<p className='blogStyle'>
-				&quot;{blog.title}&quot; by {blog.author}
+				<div className='blogStyle'>
+					<div className='blog-collapsed-title'>&quot;{blog.title}&quot; by {blog.author}</div>
 					<button className='btn' onClick={handleExpand}>Expand</button>
-				</p>
+				</div>
 			</div>
-			<div className='blogStyle' style={showWhenExpanded}>
+			<div className='blogStyle blog-expanded' style={showWhenExpanded}>
 				<div>
 					{blog.title}
 					<button className='btn' onClick={handleExpand}>Hide</button>
