@@ -39,6 +39,7 @@ const user = {
 	],
 	id: "123"
 }
+
 describe('render content', () => {
 	let container
 
@@ -80,7 +81,7 @@ test('likes', async () => {
 	const mockHandler = jest.fn()
 	const userTest = userEvent.setup()
 
-	render(<Blog blog={blog} onLike={mockHandler} user={user}></Blog>)
+	render(<Blog blog={blog} onLike={mockHandler} user={user} />)
 
 	const button = screen.getByLabelText('like-btn')
 
