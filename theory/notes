@@ -11,8 +11,6 @@ to package.json -> "server": "json-server -p3001 --watch db.json"
 npm run server
 
 
-
-
 -- create a new template for application --
 npm init
 
@@ -94,7 +92,22 @@ or
 	npm test -- -t 'test desc/name' )
 
 __Front__
-npm install --save-dev @testing-library/react @testing-library/jest-dom
+==test-lib==
+	npm install --save-dev @testing-library/react @testing-library/jest-dom
+
+run tests in 'normal mode'
+	CI=true npm test
+
+==user-event lib==
+	npm install --save-dev @testing-library/user-event
+
+// If there is a mismatch between the version of a dependency 
+	jest-watch-typeahead that create-react-app and user-event are using:
+		npm install -D --exact jest-watch-typeahead@0.6.5
+
+(	at least starting from macOS Sierra, running tests in watch mode issues some warnings to the console, that can be removed by installing Watchman. 
+	https://facebook.github.io/watchman/
+)
 
 == supertest ==
 npm install --save-dev supertest
