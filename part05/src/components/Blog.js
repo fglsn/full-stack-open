@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Button from './Button'
-import blogService from '../services/blogs'
 import '../index.css'
 
 const Blog = ({ blog, onLike, onRemoveBlog, user }) => {
@@ -30,10 +29,10 @@ const Blog = ({ blog, onLike, onRemoveBlog, user }) => {
 				<div>url: {blog.url}</div>
 				<div>
 					likes: {blog.likes}
-					<button className='btn' aria-label='like-btn' onClick={onLike}>like</button>
+					<button className='btn' aria-label='like-btn' onClick={() => onLike(blog)}>like</button>
 				</div>
 				<div>author: {blog.author}</div>
-				{showRemoveBtn() && <Button text='Remove' onClick={onRemoveBlog}></Button>}
+				{showRemoveBtn() && <Button text='Remove' onClick={() => onRemoveBlog(blog)}></Button>}
 			</div>
 		</div>
 	)

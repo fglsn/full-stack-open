@@ -115,7 +115,7 @@ const App = () => {
 		}
 	}
 
-	const handleRemove = async () => {
+	const handleRemove = async (blog) => {
 		let confirm = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
 		if (confirm) {
 			await blogService.remove(blog.id)
