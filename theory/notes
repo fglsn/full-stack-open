@@ -109,6 +109,22 @@ run tests in 'normal mode'
 	https://facebook.github.io/watchman/
 )
 
+__End to end__
+==cypress==
+	npm install --save-dev cypress
+
+	to package-json scripts:			"cypress:open": "cypress open"
+	to backend package.json scripts:	"start:test": "cross-env NODE_ENV=test node index.js"
+
+		npm install eslint-plugin-cypress --save-dev
+	to .eslintrc.js 'env':		"cypress/globals": true
+	to .eslintrc.js 'plugins:	"cypress"
+
+	list of the most common assertions which can be used with should
+	https://docs.cypress.io/guides/references/assertions.html#BDD-Assertions
+	https://github.com/cypress-io/cypress/issues/9349
+_____
+
 == supertest ==
 npm install --save-dev supertest
 

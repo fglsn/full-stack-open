@@ -10,7 +10,7 @@
 
 # production
 /build
-
+cypress/videos/
 # misc
 .DS_Store
 .env.local

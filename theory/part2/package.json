@@ -17,7 +17,9 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"server": "json-server -p3001 --watch db.json",
-		"eslint": "eslint ."
+		"eslint": "eslint .",
+		"cypress:open": "cypress open",
+		"test:e2e": "cypress run"
 	},
 	"eslintConfig": {
 		"extends": [
@@ -41,6 +43,8 @@
 		"@testing-library/jest-dom": "^5.16.5",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^14.4.3",
+		"cypress": "^10.8.0",
+		"eslint-plugin-cypress": "^2.12.1",
 		"eslint-plugin-jest": "^27.0.4",
 		"jest-watch-typeahead": "^0.6.5",
 		"json-server": "^0.17.0"
