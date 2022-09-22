@@ -154,3 +154,10 @@ or with the command which empties localstorage completely:
 
 == prop-types == 
 npm install prop-types
+
+
+__Redux__
+
+npm install redux
+
+npm install --save-dev deep-freeze
