@@ -14,7 +14,7 @@ const Blog = ({ blog, onLike, onRemoveBlog, user }) => {
 	const showRemoveBtn = () => user && user.id === blog.user.id
 
 	return (
-		<div className='container' >
+		<div className='container blog'>
 			<div className='container' style={hideWhenExpanded}>
 				<div className='blogStyle'>
 					<div className='blog-collapsed-title'>&quot;{blog.title}&quot; by {blog.author}</div>

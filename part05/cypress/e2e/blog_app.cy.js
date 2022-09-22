@@ -39,15 +39,14 @@ describe('Blog app', function () {
 	describe('When logged in', function () {
 		beforeEach(function () {
 			cy.login({ username: 'ilona', password: '123' })
+			cy.createBlog({ title: 'new title', author: 'best author', url: '123.com' })
 		})
 
 		it('a blog can be created', function () {
-			cy.createBlog({ title: 'new title', author: 'best author', url: '123.com' })
 			cy.contains('"new title" by best author')
 		})
 
 		it('user can like a blog', function () {
-			cy.createBlog({ title: 'new title', author: 'best author', url: '123.com' })
 			cy.contains('"new title" by best author')
 			cy.contains('Expand').click()
 			cy.contains('like').click()
@@ -55,7 +54,6 @@ describe('Blog app', function () {
 		})
 
 		it('user can remove his post', function () {
-			cy.createBlog({ title: 'new title', author: 'best author', url: '123.com' })
 			cy.contains('"new title" by best author')
 			cy.contains('Expand').click()
 			cy.contains('Remove').click()
@@ -63,16 +61,39 @@ describe('Blog app', function () {
 			cy.get('html').should('not.contain', '"new title" by best author')
 		})
 
-		it.only('user can not remove other users posts', function () {
-			cy.login({ username: 'ilona', name: 'ilona', password: '123' })
-			cy.createBlog({ title: 'new title', author: 'best author', url: '123.com' })
+		it('user can not remove other users posts', function () {
 			cy.contains('Logout').click()
-
 			cy.login({ username: 'bebs', name: 'bebs', password: '123' })
+
 			cy.contains('"new title" by best author')
 			cy.contains('Expand').click()
 			cy.get('html').should('not.contain', 'Remove')
 		})
-	})
 
+		it('blogs are ordered according to likes', function () {
+
+			cy.createBlog({ title: 'second new title', author: 'second author', url: '123.com' })
+			cy.createBlog({ title: 'third new title', author: 'third author', url: '123.com' })
+
+
+			cy.get('.blog').eq(2).contains('Expand').click()
+			cy.get('.blog').eq(2).contains('like').click({ timeout: 10000 })
+
+			cy.get('.blog').eq(0).contains('Expand').click()
+			cy.get('.blog').eq(0).contains('like').click({ timeout: 10000 })
+
+			cy.get('.blog').eq(2).contains('Expand').click()
+			cy.get('.blog').eq(2).contains('like').click({ timeout: 10000 })
+
+			cy.get('.blog').eq(0).contains('Hide').click()
+			cy.get('.blog').eq(1).contains('Hide').click()
+			cy.get('.blog').eq(2).contains('Hide').click()
+
+			cy.get('.blog').eq(0).should('contain', '"third new title" by third author')
+			cy.get('.blog').eq(1).should('contain', '"second new title" by second author')
+			cy.get('.blog').eq(2).should('contain', '"new title" by best author')
+
+		})
+	})
 })
+
