@@ -77,7 +77,7 @@ const App = () => {
 	const displayError = (error) => {
 		setErrorMessage(error)
 		setTimeout(() => {
-			setInfoMessage(null)
+			setErrorMessage(null)
 		}, 5000)
 	}
 
