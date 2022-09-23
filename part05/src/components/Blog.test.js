@@ -6,38 +6,38 @@ import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 const blog = {
-	title: "Some title",
-	author: "Bella Bebs",
-	url: "bebs.com",
+	title: 'Some title',
+	author: 'Bella Bebs',
+	url: 'bebs.com',
 	likes: 60,
 	user: {
-		username: "test",
-		name: "testname testsurname",
-		id: "123"
+		username: 'test',
+		name: 'testname testsurname',
+		id: '123'
 	},
-	id: "12345"
+	id: '12345'
 }
 
 const user = {
-	username: "test",
-	name: "testname testsurname",
+	username: 'test',
+	name: 'testname testsurname',
 	blogs: [
 		{
-			title: "Some title",
-			author: "Bella Bebs",
-			url: "bebs.com",
-			likes: "60",
-			id: "12345"
+			title: 'Some title',
+			author: 'Bella Bebs',
+			url: 'bebs.com',
+			likes: '60',
+			id: '12345'
 		},
 		{
-			title: "This title is the best",
-			author: "Tamara Berns",
-			url: "123.com",
+			title: 'This title is the best',
+			author: 'Tamara Berns',
+			url: '123.com',
 			likes: 32,
-			id: "12346"
+			id: '12346'
 		}
 	],
-	id: "123"
+	id: '123'
 }
 
 describe('render content', () => {
