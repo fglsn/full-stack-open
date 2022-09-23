@@ -161,3 +161,6 @@ __Redux__
 npm install redux
 
 npm install --save-dev deep-freeze
+
+npm install react-redux
+
