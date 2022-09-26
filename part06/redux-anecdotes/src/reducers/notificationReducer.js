@@ -7,12 +7,16 @@ const notificationSlice = createSlice({
 		setNotification(state, action) {
 			state = action.payload
 			return state
+		},
+		resetNotification(state, action) {
+			state = action.payload
+			return state
 		}
 	}
 
 })
 
-export const { setNotification } = notificationSlice.actions
+export const { setNotification, resetNotification } = notificationSlice.actions
 
 // export const showNotification = (content) => {
 // 	return (dispatch) => {

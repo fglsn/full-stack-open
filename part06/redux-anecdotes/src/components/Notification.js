@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-const Notification = (props) => {
+const Notification = () => {
 
 	const notification = useSelector((state) => state.notification)
 
