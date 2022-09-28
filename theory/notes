@@ -173,3 +173,6 @@ npm install redux-thunk
 __Router__
 
 npm install react-router-dom
+
+__HOOKS__
+https://fullstackopen.com/en/part7/custom_hooks
