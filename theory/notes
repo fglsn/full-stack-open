@@ -169,3 +169,7 @@ npm install @reduxjs/toolkit
 https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd/related
 
 npm install redux-thunk
+
+__Router__
+
+npm install react-router-dom
