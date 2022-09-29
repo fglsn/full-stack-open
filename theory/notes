@@ -209,3 +209,22 @@ https://react.fluentui.dev/
 
 npm install styled-components
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates
+
+__Check dependencies && Security__
+npm outdated --depth 0
+
+	"The dependencies can be brought up to date by updating the file package.json. The best way to do that is by using a tool called npm-check-updates. It can be installed globally by running the command"
+
+	npm install -g npm-check-updates
+
+	The file package.json is brought up to date by running the command ncu -u.
+	ncu -u
+
+	npm audit
+	npm audit fix
+
+	The documentation for Express includes a section on security: Production Best Practices: Security, which is worth a read through. It is also recommended to add a library called Helmet to the backend. It includes a set of middlewares that eliminate some security vulnerabilities in Express applications.
+
+Using the ESlint security-plugin is also worth doing.
+
+https://fullstackopen.com/en/part7/class_components_miscellaneous
