@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Table, Form, Button, Alert, Nav, Navbar } from 'react-bootstrap'
+import { Table, Form, Alert } from 'react-bootstrap'
 
 import {
 	Routes,
@@ -10,6 +10,26 @@ import {
 	useNavigate,
 	useMatch,
 } from "react-router-dom"
+
+import styled from 'styled-components'
+// Practice styled-components 
+const Button = styled.button`
+	background: Bisque;
+	font-size: 1em;
+	margin: 1em;
+	padding: 0.25em 1em;
+	border: 2px solid Chocolate;
+	border-radius: 3px;
+`
+
+const Input = styled.input`
+	margin: 0.25em;
+`
+// apply style to certain div
+const Navigation = styled.div`
+	background: BurlyWood;
+	padding: 1em;
+`
 
 const Home = () => (
 	<div className='container'>
@@ -64,22 +84,17 @@ const Login = (props) => {
 		props.onLogin('mluukkai')
 		navigate('/')
 	}
-
+	//Button, Navigation and Input components are not bootstrap, but styles components
 	return (
 		<div>
 			<h2>login</h2>
 			<Form onSubmit={onSubmit}>
 				<Form.Group>
 					<Form.Label>username:</Form.Label>
-					<Form.Control
-						type="text"
-						name="username"
-					/>
+					<Input />
 					<Form.Label>password:</Form.Label>
-					<Form.Control
-						type="password"
-					/>
-					<Button variant="primary" type="submit">
+					<Input type='password' />
+					<Button type="submit" primary=''>
 						login
 					</Button>
 				</Form.Group>
@@ -140,28 +155,15 @@ const App = () => {
 					{message}
 				</Alert>
 			)}
-			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-				<Navbar.Collapse id="responsive-navbar-nav">
-					<Nav className="me-auto">
-						<Nav.Link href="#" as="span">
-							<Link style={padding} to="/">home</Link>
-						</Nav.Link>
-						<Nav.Link href="#" as="span">
-							<Link style={padding} to="/notes">notes</Link>
-						</Nav.Link>
-						<Nav.Link href="#" as="span">
-							<Link style={padding} to="/users">users</Link>
-						</Nav.Link>
-						<Nav.Link href="#" as="span">
-							{user
-								? <em style={padding}>{user} logged in</em>
-								: <Link style={padding} to="/login">login</Link>
-							}
-						</Nav.Link>
-					</Nav>
-				</Navbar.Collapse>
-			</Navbar>
+			<Navigation>
+				<Link style={padding} to="/">home</Link>
+				<Link style={padding} to="/notes">notes</Link>
+				<Link style={padding} to="/users">users</Link>
+				{user
+					? <em>{user} logged in</em>
+					: <Link style={padding} to="/login">login</Link>
+				}
+			</Navigation>
 
 			<Routes>
 				<Route path="/notes/:id" element={<Note note={note} />} />
