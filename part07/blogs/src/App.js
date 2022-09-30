@@ -1,15 +1,9 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import LoginForm from './components/LoginForm'
 import Users from './components/Users'
 import { initializeUsers } from './reducers/userReducer'
 import { setLoggedUser } from './reducers/loginReducer'
-
-
-// import Footer from './components/Footer'
-
-// import blogService from './services/blogs'
-// import loginService from './services/login'
 
 import {
 	Button,
@@ -32,14 +26,6 @@ const App = () => {
 		dispatch(initializeUsers())
 	}, [dispatch])
 
-	useEffect(() => {
-		const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-		if (loggedUserJSON) {
-			const user = JSON.parse(loggedUserJSON)
-			dispatch(setLoggedUser(user))
-		}
-	}, [dispatch])
-
 	const handleLogout = async (event) => {
 		event.preventDefault()
 		window.localStorage.clear()
@@ -48,16 +34,9 @@ const App = () => {
 		//dispatch(setNotification('Somehing went wrong during logout, please try again', 5))
 	}
 
-	let user = localStorage.getItem('loggedBlogappUser')
-		? localStorage.getItem('loggedBlogappUser')
-		: null
+	const user = useSelector(({ loggedUser }) => loggedUser)
 
-	if (user)
-		user = JSON.parse(user)
-
-	useEffect(() => {
-		dispatch(setLoggedUser(user))
-	}, [])
+	console.log('lpdfkjhfg', user)
 
 	return (
 		<div>

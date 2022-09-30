@@ -5,17 +5,26 @@ import blogService from '../services/blogs'
 
 // const initialState = { user }
 
+const initialState = localStorage.getItem('loggedBlogappUser')
+	? JSON.parse(localStorage.getItem('loggedBlogappUser'))
+	: null
+
 const loginSlice = createSlice({
 	name: 'login',
-	initialState: {},
+	initialState,
 	reducers: {
 		setLoggedUser(state, action) {
+			console.log('check', action.payload)
 			return action.payload
 		},
 	}
 })
 
-export const { setLoggedUser, initializeUser } = loginSlice.actions
+export const { setLoggedUser } = loginSlice.actions
+
+export const getUser = () => {
+
+}
 
 export const login = (username, password) => {
 	return async dispatch => {
@@ -27,7 +36,7 @@ export const login = (username, password) => {
 			'loggedBlogappUser', JSON.stringify(copy)
 		)
 		blogService.setToken(copy.token)
-		// console.log(user)
+		console.log(user)
 		dispatch(setLoggedUser(user))
 	}
 }
