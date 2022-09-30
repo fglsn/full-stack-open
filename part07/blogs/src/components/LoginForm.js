@@ -1,22 +1,30 @@
-import PropTypes from 'prop-types'
+import { useState } from 'react'
 import { TextField, Button } from '@mui/material'
-const LoginForm = ({
-	handleSubmit,
-	handleUsernameChange,
-	handlePasswordChange,
-	username,
-	password
-}) => {
+import { login } from '../reducers/loginReducer'
+import { useDispatch } from 'react-redux'
+// import blogService from '../services/blogs'
+
+const LoginForm = () => {
+	const [username, setUsername] = useState('')
+	const [password, setPassword] = useState('')
+	const dispatch = useDispatch()
+
+	const handleSubmit = (event) => {
+		event.preventDefault()
+		dispatch(login(username, password))
+	}
+
 	return (
 		<div>
 			<h2>Login</h2>
 
 			<form onSubmit={handleSubmit}>
+
 				<div>
 					<TextField
 						id='username'
 						value={username}
-						onChange={handleUsernameChange}
+						onChange={({ target }) => setUsername(target.value)}
 						label="username" />
 				</div>
 				<div>
@@ -24,7 +32,7 @@ const LoginForm = ({
 						id='password'
 						type='password'
 						value={password}
-						onChange={handlePasswordChange}
+						onChange={({ target }) => setPassword(target.value)}
 						label="password" />
 				</div>
 				<div>
@@ -35,14 +43,6 @@ const LoginForm = ({
 			</form>
 		</div>
 	)
-}
-
-LoginForm.propTypes = {
-	handleSubmit: PropTypes.func.isRequired,
-	handleUsernameChange: PropTypes.func.isRequired,
-	handlePasswordChange: PropTypes.func.isRequired,
-	username: PropTypes.string.isRequired,
-	password: PropTypes.string.isRequired
 }
 
 export default LoginForm
