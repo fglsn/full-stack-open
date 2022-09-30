@@ -228,3 +228,5 @@ npm outdated --depth 0
 Using the ESlint security-plugin is also worth doing.
 
 https://fullstackopen.com/en/part7/class_components_miscellaneous
+
+npm install --save-dev --save-exact prettier
