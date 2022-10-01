@@ -29,7 +29,7 @@ let style = {
 }
 
 const Users = () => {
-	const users = useSelector(({ users }) => { return users })
+	const users = useSelector(({ users }) => users)
 
 	return (
 		<Box style={style.box}>
