@@ -2,6 +2,7 @@ import User from './User'
 import { useSelector } from 'react-redux'
 
 import {
+	Box,
 	Table,
 	TableBody,
 	TableCell,
@@ -11,13 +12,29 @@ import {
 	TableHead
 } from '@mui/material'
 
+let style = {
+	header: {
+		textAlign: 'center',
+		margin: '15px'
+	},
+	container: {
+		margin: '2rem'
+	},
+	box: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		minHeight: '100vh',
+	}
+}
+
 const Users = () => {
 	const users = useSelector(({ users }) => { return users })
 
 	return (
-		<div>
-			<h2>Users</h2>
-			<TableContainer sx={{ width: 650 }}component={Paper}>
+		<Box style={style.box}>
+			<h2 style={style.header}>Users</h2>
+			<TableContainer sx={{ width: 650 }} component={Paper}>
 				<Table >
 					<TableHead>
 						<TableRow>
@@ -37,7 +54,7 @@ const Users = () => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-		</div>
+		</Box>
 	)
 }
 
