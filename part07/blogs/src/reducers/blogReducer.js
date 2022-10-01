@@ -23,4 +23,19 @@ export const initializeBlogs = () => {
 	}
 }
 
+export const like = (blogs, id) => {
+	const putLikeTo = blogs.find(blog => blog.id === id)
+	const likedBlog = {
+		...putLikeTo,
+		likes: putLikeTo.likes + 1
+	}
+	return async dispatch => {
+		await blogService.putLike(likedBlog)
+		const updatedList = blogs
+			.map(blog =>
+				blog.id !== id ? blog : likedBlog)
+		dispatch(setBlogs(updatedList))
+	}
+}
+
 export default blogSlice.reducer

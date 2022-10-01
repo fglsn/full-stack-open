@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import LoginForm from './components/LoginForm'
 import Users from './components/Users'
+import Blog from './components/Blog'
+import BlogList from './components/BlogList'
 import { initializeUsers } from './reducers/userReducer'
 import { setLoggedUser } from './reducers/loginReducer'
 
@@ -16,6 +18,7 @@ import {
 	Route,
 	Link,
 	Navigate,
+	useMatch,
 } from 'react-router-dom'
 
 const App = () => {
@@ -35,8 +38,13 @@ const App = () => {
 	}
 
 	const user = useSelector(({ loggedUser }) => loggedUser)
+	const blogs = useSelector(({ blogs }) => blogs)
 
-	console.log('lpdfkjhfg', user)
+	const match = useMatch('/blogs/:id')
+
+	const blog = match
+		? blogs.find(blog => blog.id === match.params.id)
+		: null
 
 	return (
 		<div>
@@ -65,11 +73,11 @@ const App = () => {
 					}
 				</Toolbar>
 			</AppBar>
-
+			<h2>Blogs App</h2>
 			<Routes>
-				<Route path="/" element={<Navigate replace to="/login" />} />
-				{/* <Route path="/blogs" element={<BlogList />} />
-				<Route path="/blogs/:id" element={<Blog blog={blog} />} /> */}
+				<Route path="/" element={<Navigate replace to="/blogs" />} />
+				<Route path="/blogs" element={<BlogList />} />
+				<Route path="/blogs/:id" element={<Blog blog={blog} />} />
 				<Route path="/users" element={user ? <Users /> : <Navigate replace to="/login" />} />
 				<Route path="/login" element={<LoginForm />} />
 			</Routes>
