@@ -6,12 +6,12 @@ const getAll = async () => {
 	return response.data
 }
 
-const create = async newObject => {
+const create = async (newObject) => {
 	try {
 		const response = await axios.post(baseUrl, newObject)
 		return response.data
 	} catch (err) {
-		return(err.response.data)
+		return err.response.data
 	}
 }
 

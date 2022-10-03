@@ -11,7 +11,7 @@ const store = configureStore({
 		users: userReducer,
 		notification: notificationReducer,
 		loggedUser: loginReducer,
-	}
+	},
 })
 
 export default store

@@ -20,7 +20,7 @@ import {
 	Route,
 	Link,
 	Navigate,
-	useMatch,
+	// useMatch,
 } from 'react-router-dom'
 
 let style = {
@@ -62,11 +62,11 @@ const App = () => {
 	const user = useSelector(({ loggedUser }) => loggedUser)
 	const blogs = useSelector(({ blogs }) => blogs)
 
-	const match = useMatch('/blogs/:id')
+	// const match = useMatch('/blogs/:id')
 
-	const blog = match
-		? blogs.find(blog => blog.id === match.params.id)
-		: null
+	// const blog = match
+	// 	? blogs.find(blog => blog.id === match.params.id)
+	// 	: null
 
 	return (
 		<div>
@@ -97,9 +97,9 @@ const App = () => {
 			</AppBar>
 			<h2 style={style.header}>Blogs App</h2>
 			<Routes>
-				<Route path="/" element={<Navigate replace to="/blogs" />} />
+				<Route path="/" element={<BlogList />} />
 				<Route path="/blogs" element={<BlogList />} />
-				<Route path="/blogs/:id" element={<Blog blog={blog} />} />
+				<Route path="/blogs/:id" element={<Blog blogs={blogs} />} />
 				<Route path="/users" element={user ? <Users /> : <Navigate replace to="/login" />} />
 				<Route path="/users/:id" element={user ? <User /> : <Navigate replace to="/login" />} />
 				<Route path="/login" element={<LoginForm />} />

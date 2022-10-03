@@ -1,7 +1,4 @@
-import {
-	useMatch,
-	Link
-} from 'react-router-dom'
+import { useMatch, Link } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
 
@@ -46,6 +43,7 @@ const User = () => {
 	if (!user) {
 		return null
 	}
+
 	return (
 		<Box style={style.box}>
 			<Card variant="outlined">
@@ -57,25 +55,23 @@ const User = () => {
 					title={user.name}
 				/>
 				<CardContent>
-					<Typography variant="body2" color="text.primary">
+					<Typography variant="body2" component={'span'} color="text.primary">
 						<List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
 							subheader={
 								<ListSubheader component="div" id="nested-list-subheader">
 									Added blogs:
 								</ListSubheader>}
 						>
-							<div>
-								{(user.blogs).map(blog => {
-									return (
-										<ListItemButton key={blog.id}>
-											<Link key={user.id} to={`/blogs/${blog.id}`} style={style.link}>
-												{blog.title}
-											</Link>
-										</ListItemButton>)
-								})}
-							</div>
+							{(user.blogs).map(blog => {
+								return (
+									<ListItemButton key={blog.id}>
+										<Link to={`/blogs/${blog.id}`} style={style.link}>
+											{blog.title}
+										</Link>
+									</ListItemButton>
+								)
+							})}
 						</List>
-
 					</Typography>
 				</CardContent>
 			</Card>

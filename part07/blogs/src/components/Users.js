@@ -12,24 +12,22 @@ import {
 	TableHead,
 } from '@mui/material'
 
-import {
-	Link
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 let style = {
 	header: {
 		textAlign: 'center',
-		margin: '15px'
+		margin: '15px',
 	},
 	container: {
-		margin: '2rem'
+		margin: '2rem',
 	},
 	box: {
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
 		minHeight: '100vh',
-	}
+	},
 }
 
 const Users = () => {
@@ -39,7 +37,7 @@ const Users = () => {
 		<Box style={style.box}>
 			<h2 style={style.header}>Users</h2>
 			<TableContainer sx={{ width: 650 }} component={Paper}>
-				<Table >
+				<Table>
 					<TableHead>
 						<TableRow>
 							<TableCell align="center">Name</TableCell>
@@ -47,7 +45,7 @@ const Users = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{users.map(user => (
+						{users.map((user) => (
 							<TableRow key={user.id}>
 								<TableCell align="center">
 									<Link key={user.id} to={`/users/${user.id}`}>

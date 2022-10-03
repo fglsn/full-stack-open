@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { like } from '../reducers/blogReducer'
 // import { setNotification } from '../reducers/notificationReducer'
 
+import { useMatch } from 'react-router-dom'
+
 import {
 	Box,
 	Card,
@@ -24,16 +26,17 @@ let style = {
 	}
 }
 
+const Blog = () => {
+	const dispatch = useDispatch()
+	const blogs = useSelector(({ blogs }) => blogs)
+	const match = useMatch('/blogs/:id')
 
-
-const Blog = ({ blog }) => {
+	const blog = match
+		? blogs.find(blog => blog.id === match.params.id)
+		: null
 	if (!blog) {
-		console.log('not blog, returning')
 		return null
 	}
-
-	const blogs = useSelector(({ blogs }) => blogs)
-	const dispatch = useDispatch()
 
 	const handleLike = async (blogs, blog) => {
 		dispatch(like(blogs, blog.id))
