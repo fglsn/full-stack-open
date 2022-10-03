@@ -21,7 +21,7 @@ let style = {
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
-		minHeight: '100vh',
+		marginBottom: '2rem'
 	},
 }
 
@@ -51,14 +51,14 @@ const BlogForm = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		const newBlog = { title: title.value, author: author.value, url: url.value }
-		console.log(newBlog)
+		// console.log(newBlog)
 		dispatch(createBlog(newBlog))
 		navigate('/')
 	}
 
 	return (
 		<Container>
-			<h2 style={style.header}>Add new blog</h2>
+			<h3 style={style.header}>Add new blog</h3>
 
 			<form style={style.box} onSubmit={handleSubmit}>
 				<TextField size='small' style={style.input} {...title} />

@@ -12,13 +12,16 @@ const loginSlice = createSlice({
 	initialState,
 	reducers: {
 		setLoggedUser(state, action) {
-			console.log('check', action.payload)
+			// console.log('check', action.payload)
 			return action.payload
 		},
+		resetToken(state, action) {
+			return action.payload
+		}
 	},
 })
 
-export const { setLoggedUser } = loginSlice.actions
+export const { setLoggedUser, resetToken } = loginSlice.actions
 
 export const login = (username, password) => {
 	return async (dispatch) => {
@@ -26,10 +29,9 @@ export const login = (username, password) => {
 			username,
 			password,
 		})
-		const copy = { ...user }
-		window.localStorage.setItem('loggedBlogappUser', JSON.stringify(copy))
-		blogService.setToken(copy.token)
-		console.log(user)
+		window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+		blogService.setToken(user.token)
+		// console.log(user.token)
 		dispatch(setLoggedUser(user))
 	}
 }

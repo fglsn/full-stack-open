@@ -1,17 +1,23 @@
 // import User from './User'
-import { useSelector } from 'react-redux'
-
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { setBlogs } from '../reducers/blogReducer'
+import blogService from '../services/blogs'
+import BlogForm from './BlogForm'
+
 
 import {
 	Box,
 	List,
 	ListItemButton,
-	ListItemText,
+	ListItem,
 	Divider,
 	Typography,
+	IconButton,
+	ListItemText
 } from '@mui/material'
-import BlogForm from './BlogForm'
+
+import DeleteIcon from '@mui/icons-material/Delete'
 
 let style = {
 	header: {
@@ -25,14 +31,27 @@ let style = {
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
-		minHeight: '100vh',
 	},
 }
 
 const BlogList = () => {
+	const dispatch = useDispatch()
+
+	const user = useSelector(({ loggedUser }) => loggedUser)
 	const blogs = useSelector(({ blogs }) => blogs)
+
+	const handleRemove = async (blog) => {
+		let confirm = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
+		if (confirm) {
+			await blogService.remove(blog.id)
+			const blogs = await blogService.getAll()
+			dispatch(setBlogs(blogs))
+		}
+	}
+
 	return (
 		<Box style={style.box}>
+			{user ? <BlogForm /> : <br />}
 			<h2 style={style.header}>Blogs</h2>
 			<List sx={style.list} component="nav" aria-label="blogs">
 				{blogs.map((blog) => {
@@ -40,16 +59,23 @@ const BlogList = () => {
 					return (
 						<Typography key={blog.id} component={'span'}>
 							<ListItemButton>
-								<Link to={`/blogs/${blog.id}`}>
-									<ListItemText primary={blogTitle} />
-								</Link>
+								<ListItem key={blog.id}
+									secondaryAction={(user && user.id === blog.user.id) ?
+										<IconButton edge="end" aria-label="delete" onClick={() => handleRemove(blog)}>
+											<DeleteIcon />
+										</IconButton>
+										: <br />
+									}
+								>
+									<Link to={`/blogs/${blog.id}`}>
+										<ListItemText primary={blogTitle} />
+									</Link>
+								</ListItem>
 							</ListItemButton>
 							<Divider />
 						</Typography>
 					)
-				})}
-			</List>
-			<BlogForm/>
+				})}</List>
 		</Box>
 	)
 }

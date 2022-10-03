@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import LoginForm from './components/LoginForm'
-import Users from './components/Users'
+
 import User from './components/User'
+import Users from './components/Users'
 import Blog from './components/Blog'
 import BlogList from './components/BlogList'
+import LoginForm from './components/LoginForm'
+
 import { initializeUsers } from './reducers/userReducer'
 import { initializeBlogs } from './reducers/blogReducer'
 import { setLoggedUser } from './reducers/loginReducer'
+
+import blogService from './services/blogs'
 
 import {
 	Button,
@@ -60,13 +64,10 @@ const App = () => {
 	}
 
 	const user = useSelector(({ loggedUser }) => loggedUser)
+	if (user)
+		blogService.setToken(user.token)
+
 	const blogs = useSelector(({ blogs }) => blogs)
-
-	// const match = useMatch('/blogs/:id')
-
-	// const blog = match
-	// 	? blogs.find(blog => blog.id === match.params.id)
-	// 	: null
 
 	return (
 		<div>
@@ -78,12 +79,8 @@ const App = () => {
 			)} */}
 			<AppBar position="static">
 				<Toolbar>
-					<Button color="inherit" component={Link} to="/">
-						blogs
-					</Button>
-					<Button color="inherit" component={Link} to="/users">
-						users
-					</Button>
+					<Button color="inherit" component={Link} to="/">blogs</Button>
+					<Button color="inherit" component={Link} to="/users">users</Button>
 					{user
 						? <div>
 							<em>{user.name} logged in </em>
