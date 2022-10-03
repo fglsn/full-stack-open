@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { TextField, Button } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { Container } from '@mui/system'
-import { useNavigate } from 'react-router-dom'
 import { createBlog } from '../reducers/blogReducer'
 
 let style = {
@@ -28,15 +27,16 @@ let style = {
 const useField = (type, label) => {
 	const [value, setValue] = useState('')
 
-	const onChange = (event) => {
-		setValue(event.target.value)
-	}
+	const onChange = (event) => setValue(event.target.value)
+
+	const reset = () => setValue('')
 
 	return {
 		type,
 		label,
 		value,
 		onChange,
+		reset
 	}
 }
 
@@ -46,14 +46,14 @@ const BlogForm = () => {
 	const url = useField('text', 'url')
 
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		const newBlog = { title: title.value, author: author.value, url: url.value }
-		// console.log(newBlog)
 		dispatch(createBlog(newBlog))
-		navigate('/')
+		title.reset()
+		author.reset()
+		url.reset()
 	}
 
 	return (

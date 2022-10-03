@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
+import { useMatch } from 'react-router-dom'
 import { like } from '../reducers/blogReducer'
+import Comments from './Comments'
 // import { setNotification } from '../reducers/notificationReducer'
 
-import { useMatch } from 'react-router-dom'
 
 import {
 	Box,
@@ -69,6 +70,7 @@ const Blog = () => {
 				</CardActions>
 			</Card>
 			<CommentForm blogs={blogs} blogId={blog.id} />
+			<Comments comments={blog.comments}/>
 		</Box>
 	)
 }

@@ -3,7 +3,6 @@ import { TextField, Button } from '@mui/material'
 import { comment } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 import { Box, Container } from '@mui/system'
-import { useNavigate } from 'react-router-dom'
 
 let style = {
 	input: {
@@ -20,35 +19,34 @@ let style = {
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
-		minHeight: '100vh',
 	},
 }
 
 const useField = (type) => {
 	const [value, setValue] = useState('')
 
-	const onChange = (event) => {
-		setValue(event.target.value)
-	}
+	const onChange = (event) => setValue(event.target.value)
+
+	const reset = () => setValue('')
 
 	return {
 		type,
 		value,
-		onChange
+		onChange,
+		reset
 	}
 }
 
 const CommentForm = ({ blogs, blogId }) => {
 
 	const dispatch = useDispatch()
-	const navigate = useNavigate()
 	const commentText = useField('text')
 	const newComment = { content: commentText.value }
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		dispatch(comment(blogs, blogId, newComment))
-		navigate(`/blogs/${blogId}`)
+		commentText.reset()
 	}
 
 	return (

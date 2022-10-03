@@ -46,10 +46,19 @@ export const like = (blogs, id) => {
 	}
 }
 
-export const comment = (blogs, blogId, commentObj) => {
+export const comment = (blogs, id, commentObj) => {
 	return async dispatch => {
-		await blogService.addComment(blogId, commentObj)
-		dispatch(setBlogs(blogs))
+		const blogToComment = blogs.find((blog) => blog.id === id)
+
+		const newComment = await blogService.addComment(id, commentObj)
+		const commentedBlog = {
+			...blogToComment,
+			comments: [newComment, ...blogToComment.comments]
+		}
+		const updatedList = blogs.map((blog) =>
+			blog.id !== id ? blog : commentedBlog
+		)
+		dispatch(setBlogs(updatedList))
 	}
 }
 
