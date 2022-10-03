@@ -13,6 +13,7 @@ import {
 	Button,
 	Link
 } from '@mui/material'
+import CommentForm from './CommentForm'
 
 let style = {
 	header: {
@@ -67,6 +68,7 @@ const Blog = () => {
 					<Button size="small" onClick={() => handleLike(blogs, blog)}>Like</Button>
 				</CardActions>
 			</Card>
+			<CommentForm blogs={blogs} blogId={blog.id} />
 		</Box>
 	)
 }

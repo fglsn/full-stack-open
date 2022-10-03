@@ -1,10 +1,10 @@
 const blogsRouter = require('express').Router()
+const { request, response } = require('express')
 //  const { request, response } = require('express')
 
 const Blog = require('../models/blog')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
-const { tokenExtractor, userExtractor } = require('../utils/middleware')
+const Comment = require('../models/comment')
+const { userExtractor } = require('../utils/middleware')
 
 blogsRouter.get('/', async (request, response) => {
 	const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
@@ -46,7 +46,6 @@ blogsRouter.put('/:id', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', userExtractor, async (request, response) => {
-	const body = request.body
 	const user = request.user
 
 	const userId = user._id
@@ -60,6 +59,21 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
 	} else {
 		return response.status(401).json({ error: 'user not authorized to remove post (not owner)' })
 	}
+})
+
+blogsRouter.post('/:id/comments', async (request, response) => {
+	const body = request.body
+	const blogId = request.params.id
+	const comment = new Comment({
+		content: body.content,
+		blog: blogId
+	})
+	const savedComment = await comment.save()
+	const blog = await Blog.findById(blogId)
+	console.log('this is blog: ', blog)
+	blog.comments.push(savedComment)
+	await blog.save()
+	response.status(201).json(savedComment)
 })
 
 module.exports = blogsRouter

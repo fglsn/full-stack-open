@@ -24,6 +24,20 @@ const create = async (newObject) => {
 	}
 }
 
+const putLike = async (blogObject) => {
+	const response = await axios.put(`${baseUrl}/${blogObject.id}`, blogObject)
+	return response.data
+}
+
+const addComment = async (blogId, commentObject) => {
+	try {
+		const response = await axios.post(`${baseUrl}/${blogId}/comments`, commentObject)
+		return response.data
+	} catch (err) {
+		return err.response.data
+	}
+}
+
 const remove = async (blogId) => {
 	try {
 		const config = {
@@ -36,10 +50,5 @@ const remove = async (blogId) => {
 	}
 }
 
-const putLike = async (blogObject) => {
-	const response = await axios.put(`${baseUrl}/${blogObject.id}`, blogObject)
-	return response.data
-}
-
-const moduleExports = { setToken, getAll, create, putLike, remove }
+const moduleExports = { setToken, getAll, create, putLike, addComment, remove }
 export default moduleExports

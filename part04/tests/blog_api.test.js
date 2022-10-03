@@ -84,10 +84,10 @@ describe('adding new blog with post', () => {
 		const user = helper.loginUser
 
 		const response = await api
-		.post('/api/login')
-		.send(user)
-		.expect(200)
-		.expect('Content-Type', /application\/json/)
+			.post('/api/login')
+			.send(user)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
 
 		const body = response.body
 
@@ -200,7 +200,7 @@ describe('removing blog post', () => {
 			.send(userCredentials)
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
-		
+
 		const body = loginResponse.body
 
 		//add new post by logged in user
@@ -210,10 +210,10 @@ describe('removing blog post', () => {
 			.send(newBlog)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
-		
+
 		const blogsAtStart = await helper.blogsInDb()
 		const blogToDelete = blogsAtStart.find(blog => blog.title === 'New blog by Bebes Bebesovitch')
-		
+
 		//remove just added blog
 		await api
 			.delete(`/api/blogs/${blogToDelete.id}`)
@@ -225,5 +225,19 @@ describe('removing blog post', () => {
 
 		const titles = blogsAtEnd.map(blog => blog.title)
 		expect(titles).not.toContain(blogToDelete.title)
+	})
+})
+
+describe('adding new comment', () => {
+	test('new comment can be added', async () => {
+		const blogsAtStart = await helper.blogsInDb()
+		const blogToComment = blogsAtStart[0].id
+		console.log(blogToComment)
+		const newComment = { content: 'COMMENT!' }
+		await api
+			.post(`/api/blogs/${blogToComment}/comments`)
+			.send(newComment)
+			.expect(201)
+			.expect('Content-Type', /application\/json/)
 	})
 })

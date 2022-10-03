@@ -37,12 +37,19 @@ export const like = (blogs, id) => {
 		...putLikeTo,
 		likes: putLikeTo.likes + 1,
 	}
-	return async (dispatch) => {
+	return async dispatch => {
 		await blogService.putLike(likedBlog)
 		const updatedList = blogs.map((blog) =>
 			blog.id !== id ? blog : likedBlog
 		)
 		dispatch(setBlogs(updatedList))
+	}
+}
+
+export const comment = (blogs, blogId, commentObj) => {
+	return async dispatch => {
+		await blogService.addComment(blogId, commentObj)
+		dispatch(setBlogs(blogs))
 	}
 }
 
