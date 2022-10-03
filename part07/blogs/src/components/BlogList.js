@@ -11,6 +11,7 @@ import {
 	Divider,
 	Typography,
 } from '@mui/material'
+import BlogForm from './BlogForm'
 
 let style = {
 	header: {
@@ -48,6 +49,7 @@ const BlogList = () => {
 					)
 				})}
 			</List>
+			<BlogForm/>
 		</Box>
 	)
 }

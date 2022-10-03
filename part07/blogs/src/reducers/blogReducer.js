@@ -23,6 +23,14 @@ export const initializeBlogs = () => {
 	}
 }
 
+export const createBlog = newBlogObject => {
+	return async dispatch => {
+		const newBlog = await blogService.create(newBlogObject)
+		dispatch(appendBlog(newBlog))
+	}
+}
+
+
 export const like = (blogs, id) => {
 	const putLikeTo = blogs.find((blog) => blog.id === id)
 	const likedBlog = {

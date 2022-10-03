@@ -22,7 +22,7 @@ let style = {
 		margin: '2rem'
 	},
 	card: {
-		minWidth: 275,
+		minWidth: 275
 	}
 }
 
@@ -54,7 +54,7 @@ const Blog = () => {
 						{blog.title}
 					</Typography>
 					<Typography sx={{ mb: 1 }} color="text.secondary">
-						<Link>{blog.url}</Link>
+						<Link href={blog.url}>{blog.url}</Link>
 					</Typography>
 					<Typography variant="body2">
 						by {blog.author}
