@@ -32,7 +32,8 @@
 		"lint": "eslint .",
 		"lint:fix": "npx eslint . --fix",
 		"cypress:open": "cypress open",
-		"test:e2e": "cypress run"
+		"test:e2e": "cypress run",
+		"pretty": "npx prettier --check"
 	},
 	"eslintConfig": {
 		"extends": [
