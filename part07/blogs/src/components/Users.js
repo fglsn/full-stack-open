@@ -1,4 +1,4 @@
-import User from './User'
+// import User from './User'
 import { useSelector } from 'react-redux'
 
 import {
@@ -9,8 +9,12 @@ import {
 	TableContainer,
 	TableRow,
 	Paper,
-	TableHead
+	TableHead,
 } from '@mui/material'
+
+import {
+	Link
+} from 'react-router-dom'
 
 let style = {
 	header: {
@@ -46,7 +50,9 @@ const Users = () => {
 						{users.map(user => (
 							<TableRow key={user.id}>
 								<TableCell align="center">
-									<User key={user.id} user={user}></User>
+									<Link key={user.id} to={`/users/${user.id}`}>
+										{user.name}
+									</Link>
 								</TableCell>
 								<TableCell align="center">{user.blogs.length}</TableCell>
 							</TableRow>

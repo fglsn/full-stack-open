@@ -22,10 +22,6 @@ const loginSlice = createSlice({
 
 export const { setLoggedUser } = loginSlice.actions
 
-export const getUser = () => {
-
-}
-
 export const login = (username, password) => {
 	return async dispatch => {
 		const user = await loginService.login({

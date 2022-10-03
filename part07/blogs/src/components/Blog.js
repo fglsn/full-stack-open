@@ -25,10 +25,13 @@ let style = {
 }
 
 
+
 const Blog = ({ blog }) => {
 	if (!blog) {
+		console.log('not blog, returning')
 		return null
 	}
+
 	const blogs = useSelector(({ blogs }) => blogs)
 	const dispatch = useDispatch()
 
