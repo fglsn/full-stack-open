@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useMatch } from 'react-router-dom'
 import { like } from '../reducers/blogReducer'
 import Comments from './Comments'
-// import { setNotification } from '../reducers/notificationReducer'
-
+import CommentForm from './CommentForm'
+import { setNotification } from '../reducers/notificationReducer'
 
 import {
 	Box,
@@ -14,7 +14,7 @@ import {
 	Button,
 	Link
 } from '@mui/material'
-import CommentForm from './CommentForm'
+
 
 let style = {
 	header: {
@@ -42,7 +42,7 @@ const Blog = () => {
 
 	const handleLike = async (blogs, blog) => {
 		dispatch(like(blogs, blog.id))
-		// dispatch(setNotification(`like added to '${blog.title}'`, 5))
+		dispatch(setNotification(`like added to '${blog.title}'`, 5))
 	}
 
 	return (

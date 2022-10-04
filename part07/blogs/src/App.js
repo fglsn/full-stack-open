@@ -6,11 +6,12 @@ import Users from './components/Users'
 import Blog from './components/Blog'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
 
 import { initializeUsers } from './reducers/userReducer'
 import { initializeBlogs } from './reducers/blogReducer'
 import { setLoggedUser } from './reducers/loginReducer'
-
+import { setNotification } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 
 import {
@@ -59,8 +60,8 @@ const App = () => {
 		event.preventDefault()
 		window.localStorage.clear()
 		dispatch(setLoggedUser(null))
+		dispatch(setNotification('LOGOUT', 5))
 		window.location.href = '/'
-		//dispatch(setNotification('Somehing went wrong during logout, please try again', 5))
 	}
 
 	const user = useSelector(({ loggedUser }) => loggedUser)
@@ -92,6 +93,7 @@ const App = () => {
 					}
 				</Toolbar>
 			</AppBar>
+			<Notification></Notification>
 			<h2 style={style.header}>Blogs App</h2>
 			<Routes>
 				<Route path="/" element={<BlogList />} />
