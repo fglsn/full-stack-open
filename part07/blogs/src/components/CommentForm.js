@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import { TextField, Button } from '@mui/material'
 import { comment } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
 import { Box, Container } from '@mui/system'
+import { useFieldWithReset } from '../hooks/index'
 
 let style = {
 	input: {
@@ -22,31 +22,16 @@ let style = {
 	},
 }
 
-const useField = (type) => {
-	const [value, setValue] = useState('')
-
-	const onChange = (event) => setValue(event.target.value)
-
-	const reset = () => setValue('')
-
-	return {
-		type,
-		value,
-		onChange,
-		reset
-	}
-}
-
 const CommentForm = ({ blogs, blogId }) => {
 
 	const dispatch = useDispatch()
-	const commentText = useField('text')
+	const { reset, ...commentText } = useFieldWithReset('text')
 	const newComment = { content: commentText.value }
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		dispatch(comment(blogs, blogId, newComment))
-		commentText.reset()
+		reset('')
 	}
 
 	return (

@@ -1,9 +1,11 @@
-import { useState } from 'react'
 import { TextField, Button } from '@mui/material'
 import { login } from '../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
 import { Box, Container } from '@mui/system'
+// import { useNavigate } from 'react-router-dom'
+import { useField } from '../hooks/index'
 import { useNavigate } from 'react-router-dom'
+// import { setNotification } from '../reducers/notificationReducer'
 
 // import blogService from '../services/blogs'
 
@@ -24,21 +26,6 @@ let style = {
 		alignItems: 'center',
 		minHeight: '100vh',
 	},
-}
-
-const useField = (type, label) => {
-	const [value, setValue] = useState('')
-
-	const onChange = (event) => {
-		setValue(event.target.value)
-	}
-
-	return {
-		type,
-		label,
-		value,
-		onChange,
-	}
 }
 
 const LoginForm = () => {
@@ -63,7 +50,7 @@ const LoginForm = () => {
 					<TextField style={style.input} {...username} />
 					<TextField style={style.input} {...password} />
 					<Button variant="contained" color="primary" type="submit">
-            login
+						login
 					</Button>
 				</form>
 			</Container>

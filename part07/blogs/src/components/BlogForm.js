@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import { TextField, Button } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { Container } from '@mui/system'
 import { createBlog } from '../reducers/blogReducer'
+import { useField } from '../hooks/index'
 
 let style = {
 	input: {
@@ -24,22 +24,6 @@ let style = {
 	},
 }
 
-const useField = (type, label) => {
-	const [value, setValue] = useState('')
-
-	const onChange = (event) => setValue(event.target.value)
-
-	const reset = () => setValue('')
-
-	return {
-		type,
-		label,
-		value,
-		onChange,
-		reset
-	}
-}
-
 const BlogForm = () => {
 	const title = useField('text', 'title')
 	const author = useField('text', 'author')
@@ -51,9 +35,13 @@ const BlogForm = () => {
 		event.preventDefault()
 		const newBlog = { title: title.value, author: author.value, url: url.value }
 		dispatch(createBlog(newBlog))
-		title.reset()
-		author.reset()
-		url.reset()
+	}
+
+	const handleReset = (event) => {
+		event.preventDefault()
+		title.onChange(event)
+		author.onChange(event)
+		url.onChange(event)
 	}
 
 	return (
@@ -67,6 +55,7 @@ const BlogForm = () => {
 				<Button variant="contained" color="primary" type="submit">
 					add blog
 				</Button>
+				<Button onClick={(e) => handleReset(e)}>reset</Button>
 			</form>
 		</Container>
 	)
