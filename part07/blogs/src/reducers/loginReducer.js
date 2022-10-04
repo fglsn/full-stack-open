@@ -37,5 +37,4 @@ export const login = (username, password) => {
 	}
 }
 
-
 export default loginSlice.reducer

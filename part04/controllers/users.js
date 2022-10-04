@@ -15,21 +15,21 @@ usersRouter.post('/', async (request, response) => {
 	const existingUser = await User.findOne({ username })
 	if (existingUser) {
 		return response.status(400).json({
-			error: 'username must be unique'
+			error: 'Error: username must be unique'
 		})
 	}
 
 	if (!username) {
 		return response.status(400).json({
-			error: 'username missing'
+			error: 'Error: username missing'
 		})
 	} else if (!password) {
 		return response.status(400).json({
-			error: 'password missing'
+			error: 'Error: password missing'
 		})
 	} else if (password.length < 3 || username.length < 3) {
 		return response.status(400).json({
-			error: 'must contain at least 3 chars'
+			error: 'Error: must contain at least 3 chars'
 		})
 	}
 	//todo: check username length, username consists of permitted characters, the password is strong enough

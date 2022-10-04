@@ -59,7 +59,7 @@ const Blog = () => {
 						<Link href={blog.url}>{blog.url}</Link>
 					</Typography>
 					<Typography variant="body2">
-						by {blog.author}
+						{blog.author ? `by ${blog.author}` : ''}
 					</Typography>
 				</CardContent>
 				<CardActions>

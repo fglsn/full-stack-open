@@ -55,7 +55,8 @@ const BlogList = () => {
 			<h2 style={style.header}>Blogs</h2>
 			<List sx={style.list} component="nav" aria-label="blogs">
 				{blogs.map((blog) => {
-					const blogTitle = `"${blog.title}" by ${blog.author}`
+					const author = blog.author ? `by ${blog.author}` : ''
+					const blogTitle = `"${blog.title}" ${author}`
 					return (
 						<Typography key={blog.id} component={'span'}>
 							<ListItemButton>

@@ -60,7 +60,7 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
 		await Blog.findByIdAndRemove(request.params.id)
 		response.status(204).end()
 	} else {
-		return response.status(401).json({ error: 'user not authorized to remove post (not owner)' })
+		return response.status(401).json({ error: 'Error: user not authorized to remove post (not owner)' })
 	}
 })
 

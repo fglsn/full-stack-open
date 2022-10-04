@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Container } from '@mui/system'
 import { createBlog } from '../reducers/blogReducer'
 import { useField } from '../hooks/index'
+import { setNotification } from '../reducers/notificationReducer'
 
 let style = {
 	input: {
@@ -34,7 +35,10 @@ const BlogForm = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		const newBlog = { title: title.value, author: author.value, url: url.value }
-		dispatch(createBlog(newBlog))
+		if (title.value.length && url.value.length)
+			dispatch(createBlog(newBlog))
+		else
+			dispatch(setNotification('Error: Please fill title and url fields', 5))
 	}
 
 	const handleReset = (event) => {

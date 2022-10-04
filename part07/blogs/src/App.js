@@ -15,6 +15,7 @@ import { setNotification } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 
 import {
+	Box,
 	Button,
 	AppBar,
 	Toolbar
@@ -25,7 +26,6 @@ import {
 	Route,
 	Link,
 	Navigate,
-	// useMatch,
 } from 'react-router-dom'
 
 let style = {
@@ -60,8 +60,7 @@ const App = () => {
 		event.preventDefault()
 		window.localStorage.clear()
 		dispatch(setLoggedUser(null))
-		dispatch(setNotification('LOGOUT', 5))
-		window.location.href = '/'
+		dispatch(setNotification('Logged out', 5))
 	}
 
 	const user = useSelector(({ loggedUser }) => loggedUser)
@@ -71,13 +70,7 @@ const App = () => {
 	const blogs = useSelector(({ blogs }) => blogs)
 
 	return (
-		<div>
-
-			{/* {(message &&
-				<Alert severity="success">
-					{message}
-				</Alert>
-			)} */}
+		<Box>
 			<AppBar position="static">
 				<Toolbar>
 					<Button color="inherit" component={Link} to="/">blogs</Button>
@@ -104,7 +97,7 @@ const App = () => {
 				<Route path="/login" element={<LoginForm />} />
 			</Routes>
 			{/* <Footer /> */}
-		</div>
+		</Box>
 	)
 }
 
