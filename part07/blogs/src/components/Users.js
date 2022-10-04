@@ -10,6 +10,7 @@ import {
 	TableRow,
 	Paper,
 	TableHead,
+	Typography,
 } from '@mui/material'
 
 import { Link } from 'react-router-dom'
@@ -17,7 +18,7 @@ import { Link } from 'react-router-dom'
 let style = {
 	header: {
 		textAlign: 'center',
-		margin: '15px',
+		margin: '25px',
 	},
 	container: {
 		margin: '2rem',
@@ -26,7 +27,6 @@ let style = {
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
-		minHeight: '100vh',
 	},
 }
 
@@ -35,7 +35,7 @@ const Users = () => {
 
 	return (
 		<Box style={style.box}>
-			<h2 style={style.header}>Users</h2>
+			<Typography style={style.header} variant="h4">Users</Typography>
 			<TableContainer sx={{ width: 650 }} component={Paper}>
 				<Table>
 					<TableHead>

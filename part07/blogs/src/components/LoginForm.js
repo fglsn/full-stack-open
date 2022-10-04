@@ -23,8 +23,7 @@ let style = {
 	box: {
 		display: 'flex',
 		flexDirection: 'column',
-		alignItems: 'center',
-		minHeight: '100vh',
+		alignItems: 'center'
 	},
 }
 

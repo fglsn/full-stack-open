@@ -1,7 +1,5 @@
 import { useSelector } from 'react-redux'
-import {
-	Alert
-} from '@mui/material'
+import { Alert } from '@mui/material'
 
 
 const Notification = () => {

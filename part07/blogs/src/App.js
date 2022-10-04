@@ -7,6 +7,8 @@ import Blog from './components/Blog'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import Footer from './components/Footer'
+
 
 import { initializeUsers } from './reducers/userReducer'
 import { initializeBlogs } from './reducers/blogReducer'
@@ -18,7 +20,8 @@ import {
 	Box,
 	Button,
 	AppBar,
-	Toolbar
+	Toolbar,
+	Typography
 } from '@mui/material'
 
 import {
@@ -31,17 +34,12 @@ import {
 let style = {
 	header: {
 		textAlign: 'center',
-		margin: '15px'
+		margin: '15px',
+		color: 'rgb(58, 118, 204)'
 	},
 	container: {
 		margin: '2rem'
 	},
-	box: {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		minHeight: '100vh',
-	}
 }
 
 const App = () => {
@@ -86,8 +84,8 @@ const App = () => {
 					}
 				</Toolbar>
 			</AppBar>
-			<Notification></Notification>
-			<h2 style={style.header}>Blogs App</h2>
+			<Notification />
+			<Typography style={style.header} variant="h3">BlogsApp</Typography>
 			<Routes>
 				<Route path="/" element={<BlogList />} />
 				<Route path="/blogs" element={<BlogList />} />
@@ -96,10 +94,9 @@ const App = () => {
 				<Route path="/users/:id" element={user ? <User /> : <Navigate replace to="/login" />} />
 				<Route path="/login" element={<LoginForm />} />
 			</Routes>
-			{/* <Footer /> */}
+			<Footer/>
 		</Box>
 	)
 }
-
 
 export default App
