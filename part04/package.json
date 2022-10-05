@@ -10,7 +10,7 @@
 		"lint": "eslint .",
 		"lint:fix": "npx eslint . --fix",
 		"start:test": "cross-env NODE_ENV=test node index.js",
-		"build:ui": "rm -rf build && cd ../../part07/blogs/ && npm run build && cp -r build ../part04/",
+		"build:ui": "rm -rf build && cd ../part07/blogs/ && npm run build && cp -r build ../../part04/",
 		"deploy": "git push heroku HEAD:master",
 		"deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
 		"logs:prod": "heroku logs --tail"
