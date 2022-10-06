@@ -1,0 +1,9 @@
+globally: npm install -g ts-node typescript
+or: npm install --save-dev ts-node typescript
+
+npm init
+to package.json: "ts-node": "ts-node"
+npm run ts-node -- file.ts
+
+Playground:
+https://www.typescriptlang.org/play
