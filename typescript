@@ -7,3 +7,24 @@ npm run ts-node -- file.ts
 
 Playground:
 https://www.typescriptlang.org/play
+
+ts.config: 
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"esModuleInterop": true,
+		"moduleResolution": "node"
+	}
+}
+
+npm install express
+npm install --save-dev @types/express
+
+	to package.json scripts:
+		"start": "ts-node index.ts",
+		"dev": "ts-node-dev index.ts"
