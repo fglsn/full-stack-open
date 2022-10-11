@@ -7,21 +7,20 @@ const parseBmiArguments = (args: Array<string>): MultiplyValues => {
 	if (args.length < 4) throw new Error('Not enough arguments');
 	if (args.length > 4) throw new Error('Too many arguments');
 
-	if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
-		if (Number(args[2]) === 0 || Number(args[3]) === 0)
+	let height = Number(args[2]);
+	let weight = Number(args[3]);
+
+	if (!isNaN(height) && !isNaN(weight)) {
+		if (height === 0 || weight === 0)
 			throw new Error('Values should be bigger than 0');
-		else {
-			return {
-				height: Number(args[2]),
-				weight: Number(args[3])
-			}
-		}
+		else
+			return { height, weight }
 	} else {
 		throw new Error('Provided values were not numbers!');
 	}
 }
 
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
 	const bmi = (weight / (height * height)) * 10000
 	if (bmi < 16)
 		return ('Underweight (Severe thinness)')
@@ -39,6 +38,8 @@ const calculateBmi = (height: number, weight: number): string => {
 		return ('Obese (Class II)')
 	else if (bmi >= 40)
 		return ('Obese (Class III)')
+	else
+		return ('Some error occured')
 }
 
 try {
@@ -51,3 +52,4 @@ try {
 	}
 	console.log(errorMessage);
 }
+
