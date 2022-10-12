@@ -15,19 +15,17 @@ interface Arguments {
 
 const parseArguments = (args: Array<string>): Arguments => {
 	if (args.length < 4) throw Error('Not enough arguments');
-	if (args.length >= 4) {
-		const hoursReport = [];
-		const target = Number(args[2]);
-		for (let i = 3; i < args.length; i++) {
-			if (isNaN(Number(args[i])))
-				throw new Error('Provided values were not numbers!');
-			hoursReport.push(Number(args[i]));
-		}
-		return { hoursReport, target };
+	const hoursReport = [];
+	const target = Number(args[2]);
+	for (let i = 3; i < args.length; i++) {
+		if (isNaN(Number(args[i])))
+			throw new Error('Provided values were not numbers!');
+		hoursReport.push(Number(args[i]));
 	}
+	return { hoursReport, target };
 };
 
-const calculateExercises = (hoursReport: Array<number>, target: number): Result => {
+export const calculateExercises = (hoursReport: Array<number>, target: number): Result => {
 	const periodLength = hoursReport.length;
 	const trainingDays = hoursReport.filter(hours => hours > 0).length;
 	const average = hoursReport.reduce((a, b) => a + b, 0) / hoursReport.length;
