@@ -14,18 +14,18 @@ interface Arguments {
 }
 
 const parseArguments = (args: Array<string>): Arguments => {
-	if (args.length < 4) throw Error('Not enough arguments')
+	if (args.length < 4) throw Error('Not enough arguments');
 	if (args.length >= 4) {
-		let hoursReport = [];
-		const target = Number(args[2])
+		const hoursReport = [];
+		const target = Number(args[2]);
 		for (let i = 3; i < args.length; i++) {
 			if (isNaN(Number(args[i])))
 				throw new Error('Provided values were not numbers!');
-			hoursReport.push(Number(args[i]))
+			hoursReport.push(Number(args[i]));
 		}
-		return { hoursReport, target }
+		return { hoursReport, target };
 	}
-}
+};
 
 const calculateExercises = (hoursReport: Array<number>, target: number): Result => {
 	const periodLength = hoursReport.length;
@@ -57,15 +57,15 @@ const calculateExercises = (hoursReport: Array<number>, target: number): Result 
 		ratingDescription,
 		target,
 		average
-	}
-}
+	};
+};
 
 
 try {
 	const { hoursReport, target } = parseArguments(process.argv);
-	console.log(calculateExercises(hoursReport, target))
+	console.log(calculateExercises(hoursReport, target));
 } catch (error: unknown) {
-	let errorMessage = 'Something bad happened.'
+	let errorMessage = 'Something bad happened.';
 	if (error instanceof Error) {
 		errorMessage += ' Error: ' + error.message;
 	}

@@ -4,23 +4,23 @@ import { calculateBmi } from './bmiCalculator';
 const app = express();
 
 const isNumeric = (str: string | qs.ParsedQs | string[] | qs.ParsedQs[] | undefined) : boolean => {
-	if (typeof str != "string") return false
-	return !isNaN(parseInt(str))
-}
+	if (typeof str != "string") return false;
+	return !isNaN(parseInt(str));
+};
 
 app.get('/hello', (_req, res) => {
 	res.send('Hello Full Stack!');
 });
 
 app.get('/bmi', (req, res) => {
-	let height = req.query.height;
-	let weight = req.query.weight;
+	const height = req.query.height;
+	const weight = req.query.weight;
 	if (!isNumeric(height) || !isNumeric(weight)) {
 		res.send({ error: "malformatted parameters" });
 	}
-	let calculator = calculateBmi(Number(height), Number(weight));
+	const calculator = calculateBmi(Number(height), Number(weight));
 
-	res.send({height, weight, calculator})
+	res.send({height, weight, calculator});
 });
 
 const PORT = 3002;

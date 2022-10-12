@@ -10,7 +10,9 @@
 		"calculateExercises": "ts-node exerciseCalculator.ts",
 		"start": "ts-node index.ts",
 		"dev": "ts-node-dev index.ts",
-		"lint": "eslint --ext .ts ."
+		"lint": "eslint --ext .ts .",
+		"fix": "eslint --ext .ts . --fix"
+
 	},
 	"author": "Ilona Shakurova",
 	"license": "ISC",
@@ -18,7 +20,6 @@
 		"@types/express": "^4.17.14",
 		"@typescript-eslint/eslint-plugin": "^5.40.0",
 		"@typescript-eslint/parser": "^5.40.0",
-		"eslint": "^8.25.0",
 		"ts-node": "^10.9.1",
 		"ts-node-dev": "^2.0.0",
 		"typescript": "^4.8.4"
