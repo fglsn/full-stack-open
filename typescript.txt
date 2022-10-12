@@ -24,7 +24,21 @@ ts.config:
 
 npm install express
 npm install --save-dev @types/express
-
 	to package.json scripts:
 		"start": "ts-node index.ts",
 		"dev": "ts-node-dev index.ts"
+
+
+npm install --save-dev eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser
+	to .eslintrc:
+		{
+			"parser": "@typescript-eslint/parser",
+			"parserOptions": {
+			"ecmaVersion": 11,
+			"sourceType": "module"
+			},
+			"plugins": ["@typescript-eslint"],
+			"rules": {
+			"@typescript-eslint/no-explicit-any": 2
+			}
+		}
