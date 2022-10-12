@@ -42,3 +42,5 @@ npm install --save-dev eslint @typescript-eslint/eslint-plugin @typescript-eslin
 			"@typescript-eslint/no-explicit-any": 2
 			}
 		}
+
+https://github.com/gcanti/io-ts/blob/master/Decoder.md
