@@ -32,6 +32,6 @@
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"project": "./tsconfig.json",
-		"tsconfigRootDir": "theory/part9-c"
+		"tsconfigRootDir": "/Users/fglsn/Documents/coding/code-server-basecamp/full-stack-open/theory/part9-c"
 	}
 }
