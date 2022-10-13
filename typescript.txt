@@ -44,3 +44,41 @@ npm install --save-dev eslint @typescript-eslint/eslint-plugin @typescript-eslin
 		}
 
 https://github.com/gcanti/io-ts/blob/master/Decoder.md
+
+
+
+== Part 9c ==
+
+npm install typescript --save-dev
+
+	to package-json:
+		"scripts": {
+			"tsc": "tsc",
+			"dev": "ts-node-dev index.ts",
+			"lint": "eslint --ext .ts .",
+			"start": "node build/index.js"
+		},
+
+npm run tsc -- --init
+
+	tsconfig.json:
+	{
+		"compilerOptions": {
+			"target": "ES6",
+			"outDir": "./build/",
+			"module": "commonjs",
+			"strict": true,
+			"noUnusedLocals": true,
+			"noUnusedParameters": true,
+			"noImplicitReturns": true,
+			"noFallthroughCasesInSwitch": true,
+			"esModuleInterop": true
+		}
+	}
+
+npm install express
+npm install --save-dev eslint @types/express @typescript-eslint/eslint-plugin @typescript-eslint/parser
+
+create .eslintrc, .eslintignore
+
+npm install --save-dev ts-node-dev

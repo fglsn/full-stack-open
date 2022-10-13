@@ -30,6 +30,6 @@
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"project": "./tsconfig.json",
-		"tsconfigRootDir": "part09"
+		"tsconfigRootDir": "part09/calculators"
 	}
 }
