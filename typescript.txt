@@ -85,3 +85,7 @@ npm install --save-dev ts-node-dev
 
 npm install uuid
 npm i --save-dev @types/uuid
+
+FRONT:
+
+npx create-react-app my-app --template typescript
