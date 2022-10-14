@@ -82,3 +82,6 @@ npm install --save-dev eslint @types/express @typescript-eslint/eslint-plugin @t
 create .eslintrc, .eslintignore
 
 npm install --save-dev ts-node-dev
+
+npm install uuid
+npm i --save-dev @types/uuid
