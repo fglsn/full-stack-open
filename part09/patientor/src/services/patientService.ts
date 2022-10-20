@@ -1,25 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import patients from '../../data/patients';
 
-import { Patient, PatientWithoutSsn, NewPatient } from "../types";
+import { Patient, PublicPatient, NewPatient } from "../types";
 import { v1 as uuid } from 'uuid';
 
 const getAllData = (): Patient[] => {
 	return patients;
 };
 
-const getPatientsWithoutSsn = (): PatientWithoutSsn[] => {
-	return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+const getPublicPatients = (): PublicPatient[] => {
+	return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
 		id,
 		name,
 		dateOfBirth,
 		gender,
 		occupation,
-		entries
 	}));
 };
 
-const getPatient = (id: string): Patient | undefined => {
+const getPatientInfo = (id: string): Patient | undefined => {
 	return patients.find(patient => patient.id === id);
 };
 
@@ -38,7 +37,7 @@ const addPatient = (patient: NewPatient): Patient => {
 
 export default {
 	getAllData,
-	getPatientsWithoutSsn,
+	getPublicPatients,
 	addPatient,
-	getPatient
+	getPatientInfo
 };
