@@ -23,4 +23,8 @@ router.post('/', (req, res) => {
 	}
 });
 
+router.get('/:id', (req, res) => {
+	res.send(patientService.getPatient(req.params.id));
+});
+
 export default router;
