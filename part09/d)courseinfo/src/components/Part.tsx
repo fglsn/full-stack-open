@@ -7,42 +7,44 @@ const assertNever = (value: never): never => {
 };
 
 const Part = ({ part }: { part: CoursePart }) => {
+	return (
+		<p>
+			<div>
+				<strong>{part.name} {part.exerciseCount}</strong>
+				<br />
+				<SubPart part={part} />
+			</div>
+		</p>
+	)
+}
+
+const SubPart = ({ part }: { part: CoursePart }) => {
 	switch (part.type) {
 		case 'normal':
 			return (
-				<div>
-					<strong>{part.name} {part.exerciseCount}</strong>
-					<br />
-					<i>{part.description}</i>
-				</div>
+				<i>{part.description}</i>
 			)
 		case 'groupProject':
 			return (
-				<div>
-					<strong>{part.name} {part.exerciseCount}</strong>
-					<br />
+				<>
 					project exercises {part.groupProjectCount}
-				</div>
+				</>
 			)
 		case 'submission':
 			return (
-				<div>
-					<strong>{part.name} {part.exerciseCount}</strong>
-					<br />
+				<>
 					<i>{part.description}</i>
 					<br />
 					submit to: {part.exerciseSubmissionLink}
-				</div>
+				</>
 			)
 		case 'special':
 			return (
-				<div>
-					<strong>{part.name} {part.exerciseCount}</strong>
-					<br />
+				<>
 					<i>{part.description}</i>
 					<br />
 					required skills: {(part.requirements).map(req => req + " ")}
-				</div>
+				</>
 			)
 		default:
 			return assertNever(part);
