@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import { apiBaseUrl } from "../constants";
-import { useStateValue } from "../state";
+import { useStateValue, loadPatient } from "../state";
 import { useParams } from "react-router-dom";
 import { LoadedPatient } from "../types";
 
@@ -40,7 +40,7 @@ const PatientInfoPage = () => {
 				);
 				// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 				console.log(`Loaded patient: ${loadedPatient.name}`);
-				dispatch({ type: "LOAD_PATIENT", payload: loadedPatient });
+				dispatch(loadPatient(loadedPatient));
 			} catch (e) {
 				console.error(e);
 			}
