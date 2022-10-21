@@ -27,8 +27,7 @@ const PatientInfoPage = () => {
 	if (!id) {
 		return null;
 	}
-	const [{ loadedPatients }, dispatch] = useStateValue();
-	// const [error, setError] = React.useState<string>();
+	const [{ loadedPatients, diagnoses }, dispatch] = useStateValue();
 
 	const patient: LoadedPatient | undefined = Object.values(loadedPatients).find((patient) => patient.id === id);
 
@@ -53,6 +52,7 @@ const PatientInfoPage = () => {
 	if (!patient) {
 		return null;
 	}
+
 	const entries: Entry[] = patient.entries;
 
 	return (
@@ -92,7 +92,10 @@ const PatientInfoPage = () => {
 										<strong>{entry.date} |  </strong>
 										<i>{entry.description}</i>
 										<ul>
-											{codes === undefined ? null : codes.map((code, x) => <li key={x}>{code}</li>)}
+											{codes === undefined ? null : codes.map((code, x) => {
+												const diagnose = Object.values(diagnoses).find((diagnose) => diagnose.code === code);
+												return (<li key={x}>{code}  {diagnose === undefined ? null : diagnose.name}</li>);
+											})}
 										</ul>
 									</div>);
 							})}
