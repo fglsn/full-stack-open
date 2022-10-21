@@ -4,7 +4,7 @@ import axios from "axios";
 import { apiBaseUrl } from "../constants";
 import { useStateValue, loadPatient } from "../state";
 import { useParams } from "react-router-dom";
-import { LoadedPatient } from "../types";
+import { LoadedPatient, Entry } from "../types";
 
 import {
 	Box,
@@ -15,6 +15,7 @@ import {
 	Avatar,
 	List,
 	ListSubheader,
+	// ListItemText
 } from '@mui/material';
 
 import { red } from '@mui/material/colors';
@@ -29,7 +30,8 @@ const PatientInfoPage = () => {
 	const [{ loadedPatients }, dispatch] = useStateValue();
 	// const [error, setError] = React.useState<string>();
 
-	const patient = Object.values(loadedPatients).find((patient) => patient.id === id);
+	const patient: LoadedPatient | undefined = Object.values(loadedPatients).find((patient) => patient.id === id);
+
 	React.useEffect(() => {
 		const fetchPatientInfo = async () => {
 			if (patient)
@@ -51,6 +53,7 @@ const PatientInfoPage = () => {
 	if (!patient) {
 		return null;
 	}
+	const entries: Entry[] = patient.entries;
 
 	return (
 		<Box>
@@ -75,12 +78,24 @@ const PatientInfoPage = () => {
 						)}
 						<p>ssn: {patient.ssn}</p>
 						<p>occupation: {patient.occupation}</p>
-						<List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+						<List sx={{ width: '100%', bgcolor: 'background.paper' }}
 							subheader={
 								<ListSubheader component="div" id="nested-list-subheader">
 									Diagnoses:
 								</ListSubheader>
 							}>
+							{entries.map((entry, i) => {
+								// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+								const codes = entry.diagnosisCodes;
+								return (
+									<div key={i}>
+										<strong>{entry.date} |  </strong>
+										<i>{entry.description}</i>
+										<ul>
+											{codes === undefined ? null : codes.map((code, x) => <li key={x}>{code}</li>)}
+										</ul>
+									</div>);
+							})}
 						</List>
 					</Typography>
 				</CardContent>
