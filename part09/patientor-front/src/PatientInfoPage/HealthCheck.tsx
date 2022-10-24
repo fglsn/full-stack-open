@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
+import Moment from 'moment';
 
 const HealthCheck: React.FC<{ entry: HealthCheckEntry }> = ({ entry }) => {
 
@@ -37,7 +37,7 @@ const HealthCheck: React.FC<{ entry: HealthCheckEntry }> = ({ entry }) => {
 				<MonitorHeartIcon />
 			</ListItemAvatar>
 			<ListItemText
-				primary={entry.date}
+				primary={Moment(entry.date).format('ddd D MMM YYYY')}
 				secondary={
 					<React.Fragment>
 						<Typography
@@ -47,7 +47,8 @@ const HealthCheck: React.FC<{ entry: HealthCheckEntry }> = ({ entry }) => {
 							color="text.primary"
 						>
 							{entry.description} <br/>
-							<FavoriteIcon color={color} />
+							<FavoriteIcon color={color} /> <br/>
+							Diagnosed by: {entry.specialist}
 						</Typography>
 					</React.Fragment>
 				}

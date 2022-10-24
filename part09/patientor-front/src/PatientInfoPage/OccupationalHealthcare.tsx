@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
-
+import Moment from 'moment';
 
 const OccupationalHealthcare: React.FC<{ entry: OccupationalHealthcareEntry }> = ({ entry }) => (
 	<ListItem alignItems="flex-start">
@@ -15,7 +15,7 @@ const OccupationalHealthcare: React.FC<{ entry: OccupationalHealthcareEntry }> =
 			<VaccinesIcon />
 		</ListItemAvatar>
 		<ListItemText
-			primary={entry.date + ' / ' + entry.employerName}
+			primary={Moment(entry.date).format('ddd D MMM YYYY') + ' / ' + entry.employerName}
 			secondary={
 				<React.Fragment>
 					<Typography
@@ -24,8 +24,8 @@ const OccupationalHealthcare: React.FC<{ entry: OccupationalHealthcareEntry }> =
 						variant="body2"
 						color="text.primary"
 					>
-						{entry.description}
-						
+						{entry.description} <br/>
+						Diagnosed by: {entry.specialist}
 					</Typography>
 				</React.Fragment>
 			}

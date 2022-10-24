@@ -4,7 +4,7 @@ import axios from "axios";
 import { apiBaseUrl } from "../constants";
 import { useStateValue, loadPatient } from "../state";
 import { useParams } from "react-router-dom";
-import { LoadedPatient, Entry } from "../types";
+import { LoadedPatient, Entry, Gender } from "../types";
 import Hospital from "./Hospital";
 import OccupationalHealthcare from "./OccupationalHealthcare";
 import HealthCheck from "./HealthCheck";
@@ -24,6 +24,7 @@ import {
 import { red } from '@mui/material/colors';
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
+import TransgenderIcon from '@mui/icons-material/Transgender';
 
 const assertNever = (value: never): never => {
 	throw new Error(
@@ -63,6 +64,7 @@ const PatientInfoPage = () => {
 	}
 
 	const entries: Entry[] = patient.entries;
+	// const gender: Gender = patient.gender;
 
 	const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
 		switch (entry.type) {
@@ -74,6 +76,19 @@ const PatientInfoPage = () => {
 				return <HealthCheck entry={entry} />;
 			default:
 				return assertNever(entry);
+		}
+	};
+
+	const GenderIcon: React.FC<{ gender: Gender }> = ({ gender }) => {
+		switch (gender) {
+			case "male":
+				return <MaleIcon fontSize={"small"} />;
+			case "female":
+				return <FemaleIcon fontSize={"small"} />;
+			case "other":
+				return <TransgenderIcon fontSize={"small"} />;
+			default:
+				return <TransgenderIcon fontSize={"small"} />;
 		}
 	};
 
@@ -92,12 +107,7 @@ const PatientInfoPage = () => {
 				</CardHeader>
 				<CardContent>
 					<Typography variant="body2" component={'span'} color="text.primary">
-						<strong>{patient.name}</strong>
-						{patient.gender === "female" ? (
-							<FemaleIcon fontSize={"small"} />
-						) : (
-							<MaleIcon fontSize={"small"} />
-						)}
+						<GenderIcon gender={patient.gender}/>
 						<p>ssn: {patient.ssn}</p>
 						<p>occupation: {patient.occupation}</p>
 						<List sx={{ width: '100%', bgcolor: 'background.paper' }}

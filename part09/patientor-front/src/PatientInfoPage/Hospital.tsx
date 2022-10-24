@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-
+import Moment from 'moment';
 
 const Hospital: React.FC<{ entry: HospitalEntry }> = ({ entry }) => (
 	<ListItem alignItems="flex-start">
@@ -15,7 +15,7 @@ const Hospital: React.FC<{ entry: HospitalEntry }> = ({ entry }) => (
 			<LocalHospitalIcon />
 		</ListItemAvatar>
 		<ListItemText
-			primary={entry.date}
+			primary={Moment(entry.date).format('ddd D MMM YYYY')}
 			secondary={
 				<React.Fragment>
 					<Typography
@@ -24,9 +24,9 @@ const Hospital: React.FC<{ entry: HospitalEntry }> = ({ entry }) => (
 						variant="body2"
 						color="text.primary"
 					>
-						{entry.description}
+						{entry.description} <br />
+						Diagnosed by: {entry.specialist}
 					</Typography>
-					{" name "}
 				</React.Fragment>
 			}
 		/>
