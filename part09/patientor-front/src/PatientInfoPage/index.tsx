@@ -5,6 +5,9 @@ import { apiBaseUrl } from "../constants";
 import { useStateValue, loadPatient } from "../state";
 import { useParams } from "react-router-dom";
 import { LoadedPatient, Entry } from "../types";
+import Hospital from "./Hospital";
+import OccupationalHealthcare from "./OccupationalHealthcare";
+import HealthCheck from "./HealthCheck";
 
 import {
 	Box,
@@ -22,12 +25,18 @@ import { red } from '@mui/material/colors';
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 
+const assertNever = (value: never): never => {
+	throw new Error(
+		`Unhandled discriminated union member: ${JSON.stringify(value)}`
+	);
+};
+
 const PatientInfoPage = () => {
 	const { id } = useParams<{ id: string }>();
 	if (!id) {
 		return null;
 	}
-	const [{ loadedPatients, diagnoses }, dispatch] = useStateValue();
+	const [{ loadedPatients }, dispatch] = useStateValue();
 
 	const patient: LoadedPatient | undefined = Object.values(loadedPatients).find((patient) => patient.id === id);
 
@@ -54,6 +63,19 @@ const PatientInfoPage = () => {
 	}
 
 	const entries: Entry[] = patient.entries;
+
+	const EntryDetails: React.FC<{ entry: Entry }> = ({ entry }) => {
+		switch (entry.type) {
+			case 'Hospital':
+				return <Hospital entry={entry} />;
+			case 'OccupationalHealthcare':
+				return <OccupationalHealthcare entry={entry} />;
+			case 'HealthCheck':
+				return <HealthCheck entry={entry} />;
+			default:
+				return assertNever(entry);
+		}
+	};
 
 	return (
 		<Box>
@@ -84,21 +106,21 @@ const PatientInfoPage = () => {
 									Diagnoses:
 								</ListSubheader>
 							}>
-							{entries.map((entry, i) => {
+							{entries.map((entry, i) => <EntryDetails key={i} entry={entry} />)
 								// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-								const codes = entry.diagnosisCodes;
-								return (
-									<div key={i}>
-										<strong>{entry.date} |  </strong>
-										<i>{entry.description}</i>
-										<ul>
-											{codes === undefined ? null : codes.map((code, x) => {
-												const diagnose = Object.values(diagnoses).find((diagnose) => diagnose.code === code);
-												return (<li key={x}>{code}  {diagnose === undefined ? null : diagnose.name}</li>);
-											})}
-										</ul>
-									</div>);
-							})}
+								// const codes = entry.diagnosisCodes;
+								// return (
+								// 	<div key={i}>
+								// 		<strong>{entry.date} |  </strong>
+								// 		<i>{entry.description}</i>
+								// 		<ul>
+								// 			{codes === undefined ? null : codes.map((code, x) => {
+								// 				const diagnose = Object.values(diagnoses).find((diagnose) => diagnose.code === code);
+								// 				return (<li key={x}>{code}  {diagnose === undefined ? null : diagnose.name}</li>);
+								// 			})}
+								// 		</ul>
+								// 	</div>);
+							}
 						</List>
 					</Typography>
 				</CardContent>
