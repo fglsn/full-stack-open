@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import patients from '../../data/patients';
 
-import { Patient, PublicPatient, NewPatient } from "../types";
+import { Patient, PublicPatient, NewPatient, Entry } from "../types";
 import { v1 as uuid } from 'uuid';
 
 const getAllData = (): Patient[] => {
@@ -35,9 +35,20 @@ const addPatient = (patient: NewPatient): Patient => {
 	return newPatient;
 };
 
+const addEntry = (entry: Entry, patientId: string): Entry => {
+	const newEntry = { ...entry, id: uuid() };
+	const patient = patients.find(patient => patient.id === patientId);
+	if (!patient) {
+		throw new Error("No patient found");
+	}
+	(patient.entries).push(newEntry);
+	return newEntry;
+};
+
 export default {
 	getAllData,
 	getPublicPatients,
 	addPatient,
-	getPatientInfo
+	getPatientInfo,
+	addEntry
 };

@@ -1,0 +1,49 @@
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+	"description": "Test",
+	"gender": "male",
+	"date": "2015-01-02",
+	"specialist": "Doctor KUK",
+	"diagnosisCodes": "123",
+	"type": "HealthCheck",
+	"healthCheckRating": "CriticalRisk"
+}
+
+###
+
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+	"description": "Test",
+	"gender": "male",
+	"date": "2018-01-02",
+	"specialist": "Doctor KEK",
+	"diagnosisCodes": "123",
+	"type": "OccupationalHealthcare",
+	"employer": "NYPD",
+	"sickLeave": {
+		"startDate": "2015-01-02",
+		"endDate": "2015-05-02"
+	}
+}
+
+###
+
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+	"description": "Test",
+	"gender": "male",
+	"date": "2018-01-02",
+	"specialist": "Doctor KEK",
+	"diagnosisCodes": "123",
+	"type": "Hospital",
+	"discharge": {
+		"date": "2015-01-02",
+		"criteria": "HOhoho"
+	}
+}
