@@ -72,3 +72,9 @@ export interface LoadedPatient {
 	dateOfBirth?: string;
 	entries: Entry[];
 }
+
+export enum EntryType {
+	HealthCheck = "HealthCheck",
+	Hospital = "Hospital",
+	OccupationalHealthcare = "OccupationalHealthcare",
+}
