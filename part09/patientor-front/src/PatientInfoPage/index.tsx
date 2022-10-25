@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import { apiBaseUrl } from "../constants";
-import { useStateValue, loadPatient } from "../state";
+import { useStateValue, loadPatient, addEntry } from "../state";
 import { useParams } from "react-router-dom";
 import { LoadedPatient, Entry, Gender } from "../types";
 import Hospital from "./Hospital";
@@ -28,6 +28,7 @@ import TransgenderIcon from '@mui/icons-material/Transgender';
 import { Button } from "@material-ui/core";
 // import AddEntryForm from "../AddEntryModal/AddEntryForm";
 import AddEntryModal from "../Modals/AddEntryModal";
+import { EntryFormValues } from "../Modals/AddEntryModal/AddEntryForm";
 
 const assertNever = (value: never): never => {
 	throw new Error(
@@ -54,8 +55,24 @@ const PatientInfoPage = () => {
 		setError(undefined);
 	};
 
-	const submitNewEntry = () => {
-		console.log("Submitted!");
+	const submitNewEntry = async (values: EntryFormValues) => {
+		try {
+			const { data: newEntry } = await axios.post<Entry>(
+				`${apiBaseUrl}/patients/${id}/entries`,
+				values
+			);
+			dispatch(addEntry(id, newEntry));
+			console.log("Submitted!");
+			closeModal();
+		} catch (e: unknown) {
+			if (axios.isAxiosError(e)) {
+				console.error(e?.response?.data || "Unrecognized axios error");
+				setError(String(e?.response?.data?.error) || "Unrecognized axios error");
+			} else {
+				console.error("Unknown error", e);
+				setError("Unknown error");
+			}
+		}
 	};
 
 	React.useEffect(() => {
@@ -124,7 +141,7 @@ const PatientInfoPage = () => {
 				</CardHeader>
 				<CardContent>
 					<Typography variant="body2" component={'span'} color="text.primary">
-						<GenderIcon gender={patient.gender}/>
+						<GenderIcon gender={patient.gender} />
 						<p>ssn: {patient.ssn}</p>
 						<p>occupation: {patient.occupation}</p>
 						<List sx={{ width: '100%', bgcolor: 'background.paper' }}

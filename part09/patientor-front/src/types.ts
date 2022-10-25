@@ -30,7 +30,6 @@ export interface HealthCheckEntry extends BaseEntry {
 	healthCheckRating: HealthCheckRating;
 }
 
-
 export interface OccupationalHealthcareEntry extends BaseEntry {
 	type: "OccupationalHealthcare";
 	employerName: string;
@@ -78,3 +77,5 @@ export enum EntryType {
 	Hospital = "Hospital",
 	OccupationalHealthcare = "OccupationalHealthcare",
 }
+
+export type NewEntry = Omit<BaseEntry, "id">;
