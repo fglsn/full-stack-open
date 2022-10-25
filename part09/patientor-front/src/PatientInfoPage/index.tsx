@@ -25,6 +25,9 @@ import { red } from '@mui/material/colors';
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import TransgenderIcon from '@mui/icons-material/Transgender';
+import { Button } from "@material-ui/core";
+// import AddEntryForm from "../AddEntryModal/AddEntryForm";
+import AddEntryModal from "../Modals/AddEntryModal";
 
 const assertNever = (value: never): never => {
 	throw new Error(
@@ -40,6 +43,20 @@ const PatientInfoPage = () => {
 	const [{ loadedPatients }, dispatch] = useStateValue();
 
 	const patient: LoadedPatient | undefined = Object.values(loadedPatients).find((patient) => patient.id === id);
+
+	const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+	const [error, setError] = React.useState<string>();
+
+	const openModal = (): void => setModalOpen(true);
+
+	const closeModal = (): void => {
+		setModalOpen(false);
+		setError(undefined);
+	};
+
+	const submitNewEntry = () => {
+		console.log("Submitted!");
+	};
 
 	React.useEffect(() => {
 		const fetchPatientInfo = async () => {
@@ -135,6 +152,15 @@ const PatientInfoPage = () => {
 					</Typography>
 				</CardContent>
 			</Card>
+			<AddEntryModal
+				modalOpen={modalOpen}
+				onSubmit={submitNewEntry}
+				error={error}
+				onClose={closeModal}
+			/>
+			<Button variant="contained" onClick={() => openModal()}>
+				Add New Entry
+			</Button>
 		</Box >
 	);
 };
