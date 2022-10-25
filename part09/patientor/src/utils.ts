@@ -164,7 +164,7 @@ export const toNewEntry = (entryFields: any): Entry => {
 			...newBaseEntry,
 			id: uuid(),
 			type: "OccupationalHealthcare",
-			employerName: parseEmployer(entryFields.employer),
+			employerName: parseEmployer(entryFields.employerName),
 			sickLeave: parseSickLeave(entryFields.sickLeave)
 		};
 		return newOccupationalHealthcareEntry;

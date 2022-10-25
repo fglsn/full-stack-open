@@ -2,8 +2,8 @@ import React from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
 
-import { TextField, SelectField, EntryTypeOption, DiagnosisSelection, NumberField } from "../FormField";
-import { EntryType, Entry } from "../../types";
+import { TextField, SelectField, EntryTypeOption, DiagnosisSelection, HealthRatingOption } from "../FormField";
+import { EntryType, Entry, HealthCheckRating } from "../../types";
 import { useStateValue } from "../../state";
 
 export type EntryFormValues = Omit<Entry, "id">;
@@ -17,6 +17,13 @@ const entryTypes: EntryTypeOption[] = [
 	{ value: EntryType.HealthCheck, label: "Health Check" },
 	{ value: EntryType.Hospital, label: "Hospital" },
 	{ value: EntryType.OccupationalHealthcare, label: "Occupational Healthcare" },
+];
+
+const healthRatings: HealthRatingOption[] = [
+	{ value: HealthCheckRating.Healthy, label: "Healthy" },
+	{ value: HealthCheckRating.LowRisk, label: "Low Risk" },
+	{ value: HealthCheckRating.HighRisk, label: "High Risk" },
+	{ value: HealthCheckRating.CriticalRisk, label: "Critical Risk" }
 ];
 
 const isDate = (date: string): boolean => {
@@ -70,13 +77,11 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 				);
 			case "HealthCheck":
 				return (
-					<Field
-						label="healthCheckRating"
-						name="healthCheckRating"
-						component={NumberField}
-						min={0}
-						max={3}
-					/>
+					<SelectField 
+					label="Health Rating"
+					name="healthCheckRating"
+					options={healthRatings}
+				/>
 				);
 		}
 	};
@@ -104,50 +109,56 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
 			onSubmit={onSubmit}
 			validate={(values) => {
 				const requiredError = "Field is required";
-				const invalidError = "Provided value is not valid or wrong formatted";
-				const errors: { [field: string]: string } = {};
+				const invalidError = "Provided value is not valid, empty or wrong formatted";
+				const errors: { [field: string]: unknown } = {};
 				if (!values.description) {
 					errors.description = requiredError;
 				}
 				if (!values.date) {
 					errors.date = requiredError;
 				}
+				if (!isDate(values.date)) {
+					errors.date = invalidError;
+				}
 				if (!values.specialist) {
 					errors.specialist = requiredError;
 				}
 				if (values.type === EntryType.Hospital) {
-					if (!values.discharge.criteria || !values.discharge.date) {
-						errors.discharge = requiredError;
+					if (!values.discharge.criteria) {
+						errors.discharge = {criteria: invalidError};
+					}
+					if (!isDate(values.discharge.date) || !values.discharge.date) {
+						errors.discharge = {date: invalidError};
 					}
 				}
 				if (values.type === EntryType.OccupationalHealthcare) {
 					if (!values.employerName) {
 						errors.employerName = requiredError;
 					}
-					if ((values.sickLeave.startDate && !values.sickLeave.endDate)
-						|| (values.sickLeave.endDate && !values.sickLeave.startDate)) {
-						errors.sickLeave = requiredError;
+					if (!isDate(values.sickLeave.startDate)) {
+						errors.sickLeave = {startDate: invalidError};
 					}
-					if (!isDate(values.sickLeave.startDate) || !isDate(values.sickLeave.endDate)) {
-						errors.sickLeave = invalidError;
+					if (!isDate(values.sickLeave.endDate)) {
+						errors.sickLeave = {endDate: invalidError};
 					}
 				}
 				if (values.type === EntryType.HealthCheck) {
 					if (values.healthCheckRating === undefined) {
 						errors.healthCheckRating = requiredError;
 					}
-					if (Number(values.healthCheckRating) < 0 || Number(values.healthCheckRating) > 3) {
-						errors.healthCheckRating = invalidError;
-					}
 				}
 				return errors;
 			}}
 		>
 			{({ isValid, dirty, setFieldValue, setFieldTouched, values }) => {
-				console.log(values);
+				// console.log(values);
 				return (
 					<Form className="form ui">
-						<SelectField label="Entry" name="type" options={entryTypes} />
+						<SelectField 
+							label="Entry"
+							name="type"
+							options={entryTypes}
+						/>
 						<Field
 							label="Description"
 							placeholder="Description"
