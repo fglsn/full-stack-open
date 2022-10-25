@@ -40,7 +40,7 @@
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"project": "./tsconfig.json",
-		"tsconfigRootDir": "/Users/ishakuro/Documents/fsopen/part09/patientor-front"
+		"tsconfigRootDir": "/Users/fglsn/Documents/coding/code-server-basecamp/full-stack-open/part09/patientor-front"
 		// "/Users/fglsn/Documents/coding/code-server-basecamp/full-stack-open/part09/patientor-front"
 	}
 }
